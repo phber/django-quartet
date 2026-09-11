@@ -12,29 +12,29 @@
 
 <style>
   /* ============================================================
-     TOKENS — ett fast 1930-tals-Paris-palett, ingen ljus/mörk-toggle
+     TOKENS — franskt art déco: smaragd & guld, ingen ljus/mörk-toggle
      ============================================================ */
   :root{
-    --paper:        #f4f1ea;   /* åldrat kräm / pergament */
-    --paper-deep:   #eae2ce;   /* djupare pergament, till kort */
-    --paper-line:   rgba(42,31,20,0.16);
+    --paper:        #0D3024;   /* djup skogsgrön — sektionsbotten */
+    --paper-deep:   #123B2A;   /* rikare smaragd — kortpaneler */
+    --paper-line:   rgba(212,175,55,0.22);
 
-    --ink:          #241c14;   /* kol / varm nästan-svart */
-    --ink-soft:     #4d4032;   /* mjukare bläck för brödtext */
-    --ink-faint:    #7a6c58;   /* bildtexter, metatext */
+    --ink:          #FBE9D2;   /* ren alabaster — rubriker/hög kontrast */
+    --ink-soft:     #8A9A86;   /* blek oliv/grå — brödtext */
+    --ink-faint:    #6E7C6A;   /* dämpad oliv — bildtexter, metatext */
 
-    --burgundy:     #6d1c2b;
-    --burgundy-deep:#4a1420;
-    --gold:         #b3822f;
-    --gold-bright:  #d3a14a;
-    --tobacco:      #8a6a42;
+    --burgundy:     #D4AF37;   /* metalliskt guld — primär accent */
+    --burgundy-deep:#8C6D1F;
+    --gold:         #D4AF37;
+    --gold-bright:  #E8C766;
+    --tobacco:      #A6832E;   /* dämpad brons-guld — sekundär accent */
 
-    --stage:        #1c150f;   /* rökig klubbatmosfär */
-    --stage-deep:   #100b07;
-    --stage-line:   rgba(211,161,74,0.35);
-    --stage-text:   #ece2cf;
+    --stage:        #111217;   /* midnattssvart — alternativ sektionsbotten */
+    --stage-deep:   #08090A;
+    --stage-line:   rgba(212,175,55,0.32);
+    --stage-text:   #FBE9D2;
 
-    --shadow: 0 18px 40px -20px rgba(16,11,7,0.45);
+    --shadow: 0 18px 40px -20px rgba(4,10,7,0.55);
   }
 
   /* ============================================================
@@ -46,10 +46,9 @@
     margin: 0;
     background-color: var(--paper);
     background-image:
-      radial-gradient(ellipse 90% 60% at 50% 0%, rgba(28,21,15,0.05), transparent 62%),
-      repeating-linear-gradient(0deg, rgba(42,31,20,0.025) 0px, rgba(42,31,20,0.025) 1px, transparent 1px, transparent 3px),
-      repeating-linear-gradient(60deg, rgba(109,28,43,0.028) 0 1px, transparent 1px 27px),
-      repeating-linear-gradient(-60deg, rgba(109,28,43,0.028) 0 1px, transparent 1px 27px);
+      radial-gradient(ellipse 90% 60% at 50% 0%, rgba(0,0,0,0.18), transparent 62%),
+      repeating-linear-gradient(60deg, rgba(212,175,55,0.035) 0 1px, transparent 1px 27px),
+      repeating-linear-gradient(-60deg, rgba(212,175,55,0.035) 0 1px, transparent 1px 27px);
     color: var(--ink-soft);
     font-family: 'Jost', 'Century Gothic', 'Futura', sans-serif;
     font-weight: 400;
@@ -200,7 +199,7 @@
      ============================================================ */
   .hero{
     position: relative;
-    background: radial-gradient(ellipse 120% 90% at 50% -10%, #241a11 0%, var(--stage) 45%, var(--stage-deep) 100%);
+    background: radial-gradient(ellipse 120% 90% at 50% -10%, #0f2a1f 0%, var(--stage) 45%, var(--stage-deep) 100%);
     color: var(--stage-text);
     padding-block: clamp(80px, 15vw, 148px) clamp(0px, 0vw, 0px);
     overflow: hidden;
@@ -217,7 +216,7 @@
     content: "";
     position: absolute; inset: 0;
     background:
-      radial-gradient(ellipse 120% 90% at 50% -10%, rgba(36,26,17,0.25) 0%, rgba(28,21,15,0.72) 48%, rgba(16,11,7,0.94) 100%);
+      radial-gradient(ellipse 120% 90% at 50% -10%, rgba(10,26,19,0.28) 0%, rgba(8,18,14,0.74) 48%, rgba(6,10,8,0.94) 100%);
   }
   .hero .rays{
     position: absolute;
@@ -227,7 +226,7 @@
     width: 160vw;
     aspect-ratio: 1 / 1;
     border-radius: 50%;
-    background: repeating-conic-gradient(from 0deg at 50% 50%, rgba(211,161,74,0.11) 0deg 3.2deg, transparent 3.2deg 11deg);
+    background: repeating-conic-gradient(from 0deg at 50% 50%, rgba(212,175,55,0.16) 0deg 3.2deg, transparent 3.2deg 11deg);
     pointer-events: none;
     z-index: 1;
   }
@@ -267,7 +266,7 @@
     font-weight: 500;
     font-size: clamp(1rem, 2.4vw, 1.3rem);
     letter-spacing: 0.05em;
-    color: #cbb98e;
+    color: #8A9A86;
     margin-top: 1.3rem;
   }
   .hero .sunburst{ margin-top: 2rem; }
@@ -389,7 +388,7 @@
     font-style: italic;
     font-size: 0.76rem;
     letter-spacing: 0.02em;
-    color: rgba(244,241,234,0.75);
+    color: rgba(13,48,36,0.8);
     margin-top: 0.3rem;
     text-transform: none;
   }
@@ -428,7 +427,7 @@
   .photo-band::after{
     content: "";
     position: absolute; inset: 0;
-    background: linear-gradient(180deg, rgba(16,11,7,0.05) 0%, rgba(16,11,7,0.15) 60%, rgba(16,11,7,0.55) 100%);
+    background: linear-gradient(180deg, rgba(6,10,8,0.08) 0%, rgba(6,10,8,0.18) 60%, rgba(6,10,8,0.6) 100%);
   }
   .photo-band .caption{
     position: absolute;
@@ -440,7 +439,7 @@
     letter-spacing: 0.24em;
     text-transform: uppercase;
     color: var(--stage-text);
-    background: rgba(16,11,7,0.55);
+    background: rgba(6,10,8,0.6);
     border: 1px solid var(--stage-line);
     padding: 0.55em 0.9em;
   }
@@ -453,7 +452,7 @@
   .media-frame .arch{
     position: relative;
     aspect-ratio: 16 / 9;
-    background: radial-gradient(circle at 50% 120%, rgba(211,161,74,0.10), transparent 60%), var(--stage-deep);
+    background: radial-gradient(circle at 50% 120%, rgba(212,175,55,0.14), transparent 60%), var(--stage-deep);
     border: 1px solid var(--stage-line);
     display: flex; align-items: center; justify-content: center;
     overflow: hidden;
@@ -467,14 +466,14 @@
   }
   .media-frame .arch-overlay{
     position: absolute; inset: 0;
-    background: radial-gradient(circle at 50% 50%, rgba(16,11,7,0.12), rgba(16,11,7,0.62) 100%);
+    background: radial-gradient(circle at 50% 50%, rgba(6,10,8,0.15), rgba(6,10,8,0.65) 100%);
   }
   .media-frame .placeholder-icon{ position: relative; z-index: 1; width: 54px; height: 54px; opacity: 0.9; }
   .media-frame .placeholder-icon circle{ stroke: var(--gold-bright); fill: none; stroke-width: 1.4; }
   .media-frame .placeholder-icon path{ fill: var(--gold-bright); }
   .media-frame figcaption{ padding: 0.95rem 0.3rem 0.3rem; text-align: center; }
   .media-frame figcaption .title{ font-family: 'Cinzel', serif; font-size: 0.82rem; letter-spacing: 0.08em; color: var(--stage-text); }
-  .media-frame figcaption .hint{ display: block; margin-top: 0.35rem; font-size: 0.74rem; font-style: italic; color: #8b7c62; }
+  .media-frame figcaption .hint{ display: block; margin-top: 0.35rem; font-size: 0.74rem; font-style: italic; color: #76856f; }
   /* När en riktig <iframe> eller <audio> klistras in i .arch fyller den ramen korrekt */
   .media-frame .arch iframe, .media-frame .arch video{ width: 100%; height: 100%; border: 0; }
   .media-frame .arch audio{ width: 92%; }
@@ -502,7 +501,7 @@
     padding: 1rem 1.2rem;
   }
   table.tour tbody td{ padding: 1rem 1.2rem; border-bottom: 1px solid var(--paper-line); font-size: 0.96rem; vertical-align: top; }
-  table.tour tbody tr:nth-child(even){ background: rgba(42,31,20,0.035); }
+  table.tour tbody tr:nth-child(even){ background: rgba(212,175,55,0.055); }
   table.tour tbody tr:last-child td{ border-bottom: none; }
   table.tour .date{ font-weight: 500; color: var(--ink); white-space: nowrap; }
   table.tour .venue{ color: var(--ink); font-weight: 500; }
@@ -540,7 +539,7 @@
      ============================================================ */
   .contact{
     position: relative;
-    background: radial-gradient(ellipse 120% 90% at 50% 110%, #241a11 0%, var(--stage) 45%, var(--stage-deep) 100%);
+    background: radial-gradient(ellipse 120% 90% at 50% 110%, #0f2a1f 0%, var(--stage) 45%, var(--stage-deep) 100%);
     color: var(--stage-text);
     overflow: hidden;
   }
@@ -554,13 +553,13 @@
   .contact-photo::after{
     content: "";
     position: absolute; inset: 0;
-    background: radial-gradient(ellipse 120% 90% at 50% 110%, rgba(36,26,17,0.35) 0%, rgba(28,21,15,0.82) 45%, rgba(16,11,7,0.95) 100%);
+    background: radial-gradient(ellipse 120% 90% at 50% 110%, rgba(10,26,19,0.38) 0%, rgba(8,18,14,0.83) 45%, rgba(6,10,8,0.95) 100%);
   }
   .contact > .wrap{ position: relative; z-index: 1; }
   .contact .chevron-band{ margin-bottom: clamp(48px, 8vw, 76px); }
   .contact .section-head .eyebrow{ color: var(--gold-bright); }
   .contact .section-head h2{ color: var(--stage-text); }
-  .contact .section-head .lead{ color: #cbb98e; }
+  .contact .section-head .lead{ color: #8A9A86; }
 
   .contact-panel{
     position: relative;
@@ -569,7 +568,7 @@
     text-align: center;
     border: 1px solid var(--stage-line);
     padding: clamp(32px, 6vw, 54px);
-    background: rgba(244,241,234,0.02);
+    background: rgba(251,233,210,0.035);
   }
   .contact-panel .email{
     font-family: 'Cinzel', serif;
@@ -580,12 +579,12 @@
     word-break: break-word;
   }
   .contact-panel .email:hover{ text-decoration: underline; }
-  .contact-panel .note{ margin-top: 1rem; font-size: 0.92rem; color: #a89679; font-style: italic; }
+  .contact-panel .note{ margin-top: 1rem; font-size: 0.92rem; color: #8A9A86; font-style: italic; }
 
   .socials{ display: flex; justify-content: center; gap: 2.2rem; margin-top: 2.6rem; }
   .socials a{
     display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
-    text-decoration: none; color: #cbb98e;
+    text-decoration: none; color: #8A9A86;
     font-family: 'Cinzel', serif; font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase;
     transition: color 160ms ease;
   }
@@ -596,8 +595,8 @@
   /* ============================================================
      SIDFOT
      ============================================================ */
-  footer{ background: var(--stage-deep); color: #7a6c58; text-align: center; padding-block: 2.6rem; font-size: 0.8rem; letter-spacing: 0.03em; }
-  footer .fname{ color: #a89679; font-family: 'Cinzel', serif; letter-spacing: 0.1em; }
+  footer{ background: var(--stage-deep); color: #6E7C6A; text-align: center; padding-block: 2.6rem; font-size: 0.8rem; letter-spacing: 0.03em; }
+  footer .fname{ color: #8A9A86; font-family: 'Cinzel', serif; letter-spacing: 0.1em; }
 
   /* ============================================================
      RESPONSIVT
