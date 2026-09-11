@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Django Quartet — Hot Club Jazz</title>
+<meta name="description" content="The Django Quartet performs acoustic Gypsy Jazz in the spirit of the Quintette du Hot Club de France — 1930s swing classics and modern songs reimagined as Parisian manouche.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Cinzel:wght@500;600&family=Jost:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+<style>
+  /* ============================================================
+     TOKENS — one fixed 1930s-Paris palette, no light/dark toggle
+     ============================================================ */
+  :root{
+    --paper:        #f4f1ea;   /* aged cream / parchment */
+    --paper-deep:   #eae2ce;   /* deeper parchment, for cards */
+    --paper-line:   rgba(42,31,20,0.16);
+
+    --ink:          #241c14;   /* carbon / warm near-black */
+    --ink-soft:     #4d4032;   /* softer ink for body copy */
+    --ink-faint:    #7a6c58;   /* captions, meta text */
+
+    --burgundy:     #6d1c2b;
+    --burgundy-deep:#4a1420;
+    --gold:         #b3822f;
+    --gold-bright:  #d3a14a;
+    --tobacco:      #8a6a42;
+
+    --stage:        #1c150f;   /* smoky club backdrop */
+    --stage-deep:   #100b07;
+    --stage-line:   rgba(211,161,74,0.35);
+    --stage-text:   #ece2cf;
+
+    --shadow: 0 18px 40px -20px rgba(16,11,7,0.45);
+    --radius: 2px;
+  }
+
+  /* ============================================================
+     RESET & BASE
+     ============================================================ */
+  *, *::before, *::after{ box-sizing: border-box; }
+  html{
+    scroll-behavior: smooth;
+  }
+  body{
+    margin: 0;
+    background-color: var(--paper);
+    background-image:
+      radial-gradient(ellipse 90% 60% at 50% 0%, rgba(28,21,15,0.05), transparent 62%),
+      repeating-linear-gradient(0deg, rgba(42,31,20,0.025) 0px, rgba(42,31,20,0.025) 1px, transparent 1px, transparent 3px);
+    color: var(--ink-soft);
+    font-family: 'Jost', 'Century Gothic', 'Futura', sans-serif;
+    font-weight: 400;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  img{ max-width: 100%; display: block; }
+  h1, h2, h3{
+    font-family: 'Cinzel', 'Cormorant Garamond', serif;
+    color: var(--ink);
+    margin: 0;
+    text-wrap: balance;
+  }
+  p{ margin: 0; }
+  a{ color: inherit; }
+  ul{ margin: 0; padding: 0; list-style: none; }
+  :focus-visible{
+    outline: 2px solid var(--burgundy);
+    outline-offset: 3px;
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior: auto; }
+    *{ animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+
+  .wrap{
+    max-width: 1080px;
+    margin-inline: auto;
+    padding-inline: clamp(20px, 5vw, 56px);
+  }
+
+  .eyebrow{
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+  }
+
+  /* ============================================================
+     DECORATIVE ELEMENTS
+     ============================================================ */
+  .sunburst{
+    width: 108px;
+    height: 42px;
+    margin-inline: auto;
+  }
+  .sunburst line{ stroke: var(--gold); stroke-width: 1.6; stroke-linecap: round; }
+  .sunburst circle{ fill: var(--gold); }
+  .sunburst.on-stage line{ stroke: var(--gold-bright); }
+  .sunburst.on-stage circle{ fill: var(--gold-bright); }
+
+  .divider{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    margin-block: 8px 0;
+  }
+  .divider .rule{
+    height: 1px;
+    width: clamp(24px, 8vw, 90px);
+    background: linear-gradient(90deg, transparent, var(--tobacco));
+  }
+  .divider .rule.right{ background: linear-gradient(90deg, var(--tobacco), transparent); }
+
+  .section-head{
+    text-align: center;
+    max-width: 640px;
+    margin-inline: auto;
+    margin-bottom: clamp(40px, 6vw, 64px);
+  }
+  .section-head .eyebrow{ color: var(--burgundy); }
+  .section-head h2{
+    font-size: clamp(1.7rem, 3.6vw, 2.5rem);
+    letter-spacing: 0.04em;
+    margin-top: 0.5rem;
+  }
+  .section-head p{
+    margin-top: 1rem;
+    color: var(--ink-faint);
+    font-style: italic;
+  }
+
+  section{ padding-block: clamp(64px, 9vw, 108px); scroll-margin-top: 24px; }
+
+  /* ============================================================
+     HERO
+     ============================================================ */
+  .hero{
+    position: relative;
+    background:
+      radial-gradient(ellipse 120% 90% at 50% -10%, #241a11 0%, var(--stage) 45%, var(--stage-deep) 100%);
+    color: var(--stage-text);
+    padding-block: clamp(88px, 16vw, 168px) clamp(72px, 12vw, 120px);
+    overflow: hidden;
+    scroll-margin-top: 0;
+  }
+  .hero::before{
+    /* faint proscenium vignette */
+    content: "";
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 70% 55% at 50% 30%, rgba(211,161,74,0.10), transparent 70%);
+    pointer-events: none;
+  }
+  .hero::after{
+    content: "";
+    position: absolute; left: 0; right: 0; bottom: 0; height: 6px;
+    background: linear-gradient(90deg, transparent, var(--gold-bright) 20%, var(--gold-bright) 80%, transparent);
+    opacity: 0.7;
+  }
+  .hero-inner{
+    position: relative;
+    text-align: center;
+    max-width: 780px;
+    margin-inline: auto;
+  }
+  .hero .eyebrow{ color: var(--gold-bright); }
+  .hero h1{
+    font-family: 'Abril Fatface', 'Cinzel', serif;
+    color: var(--stage-text);
+    font-size: clamp(2.6rem, 8.5vw, 5.4rem);
+    line-height: 1.02;
+    margin-top: 0.9rem;
+    text-shadow: 0 2px 24px rgba(0,0,0,0.4);
+  }
+  .hero .tagline{
+    font-family: 'Cinzel', serif;
+    font-weight: 500;
+    font-size: clamp(1rem, 2.4vw, 1.3rem);
+    letter-spacing: 0.05em;
+    color: #cbb98e;
+    margin-top: 1.4rem;
+  }
+  .hero .sunburst{ margin-top: 2.1rem; }
+
+  .btn{
+    display: inline-block;
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    font-size: 0.86rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 1rem 2.3rem;
+    border: 1px solid var(--gold-bright);
+    color: var(--gold-bright);
+    background: transparent;
+    position: relative;
+    transition: background-color 180ms ease, color 180ms ease, transform 180ms ease;
+  }
+  .btn::before, .btn::after{
+    content: "";
+    position: absolute;
+    width: 9px; height: 9px;
+    border-color: var(--gold-bright);
+  }
+  .btn::before{ top: -1px; left: -1px; border-top: 1px solid; border-left: 1px solid; }
+  .btn::after{ bottom: -1px; right: -1px; border-bottom: 1px solid; border-right: 1px solid; }
+  .btn:hover{ background: var(--gold-bright); color: var(--stage-deep); transform: translateY(-1px); }
+
+  .btn-primary{
+    margin-top: 2.6rem;
+  }
+
+  .btn-dark{
+    border-color: var(--burgundy);
+    color: var(--burgundy-deep);
+  }
+  .btn-dark::before, .btn-dark::after{ border-color: var(--burgundy); }
+  .btn-dark:hover{ background: var(--burgundy); color: var(--paper); }
+
+  /* ============================================================
+     ABOUT
+     ============================================================ */
+  .about-grid{
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: clamp(32px, 6vw, 72px);
+    align-items: start;
+  }
+  .about-copy p{ margin-bottom: 1.15em; font-size: 1.06rem; }
+  .about-copy p:last-child{ margin-bottom: 0; }
+  .about-copy .drop{
+    font-family: 'Abril Fatface', serif;
+    float: left;
+    font-size: 3.6rem;
+    line-height: 0.8;
+    color: var(--burgundy);
+    padding: 0.08em 0.1em 0 0;
+  }
+
+  .lineup{
+    border: 1px solid var(--paper-line);
+    background: var(--paper-deep);
+    padding: clamp(24px, 4vw, 34px);
+    box-shadow: var(--shadow);
+  }
+  .lineup h3{
+    font-size: 0.78rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--burgundy);
+    text-align: center;
+    padding-bottom: 1rem;
+    margin-bottom: 1.2rem;
+    border-bottom: 1px solid var(--paper-line);
+  }
+  .lineup li{
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding-block: 0.65rem;
+    border-bottom: 1px dotted var(--paper-line);
+    font-size: 0.94rem;
+  }
+  .lineup li:last-child{ border-bottom: none; }
+  .lineup .role{
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .lineup .desc{
+    color: var(--ink-faint);
+    font-style: italic;
+    text-align: right;
+    font-size: 0.88rem;
+  }
+
+  /* ============================================================
+     REPERTOIRE
+     ============================================================ */
+  .rep-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(28px, 5vw, 56px);
+  }
+  .rep-card{
+    border: 1px solid var(--paper-line);
+    background: var(--paper-deep);
+    box-shadow: var(--shadow);
+  }
+  .rep-card header{
+    background: var(--burgundy);
+    color: var(--paper);
+    text-align: center;
+    padding: 1.1rem 1rem;
+  }
+  .rep-card.modern header{ background: var(--tobacco); }
+  .rep-card header h3{
+    color: inherit;
+    font-size: 0.86rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .rep-card header span{
+    display: block;
+    font-family: 'Jost', sans-serif;
+    font-style: italic;
+    font-size: 0.76rem;
+    letter-spacing: 0.02em;
+    color: rgba(244,241,234,0.75);
+    margin-top: 0.3rem;
+    text-transform: none;
+  }
+  .song-list{ padding: 0.4rem clamp(20px, 4vw, 30px) 1.6rem; }
+  .song-list li{
+    display: flex;
+    align-items: baseline;
+    gap: 0.5em;
+    padding-block: 0.72rem;
+    border-bottom: 1px dotted var(--paper-line);
+  }
+  .song-list li:last-child{ border-bottom: none; }
+  .song-title{
+    font-weight: 500;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .song-leader{
+    flex: 1;
+    border-bottom: 1px dotted var(--ink-faint);
+    height: 0.5em;
+    opacity: 0.6;
+  }
+  .song-credit{
+    font-style: italic;
+    font-size: 0.86rem;
+    color: var(--ink-faint);
+    white-space: nowrap;
+  }
+
+  /* ============================================================
+     MEDIA
+     ============================================================ */
+  .media-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: clamp(24px, 4vw, 40px);
+  }
+  .media-frame{
+    background: var(--stage);
+    border: 1px solid var(--stage-line);
+    box-shadow: var(--shadow);
+    padding: 10px;
+  }
+  .media-frame .arch{
+    position: relative;
+    aspect-ratio: 16 / 9;
+    background:
+      radial-gradient(circle at 50% 120%, rgba(211,161,74,0.10), transparent 60%),
+      var(--stage-deep);
+    border: 1px solid var(--stage-line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .media-frame.audio .arch{ aspect-ratio: 21 / 9; }
+  .media-frame .placeholder-icon{
+    width: 54px; height: 54px;
+    opacity: 0.85;
+  }
+  .media-frame .placeholder-icon circle{ stroke: var(--gold-bright); fill: none; stroke-width: 1.4; }
+  .media-frame .placeholder-icon path{ fill: var(--gold-bright); }
+  .media-frame figcaption{
+    padding: 0.95rem 0.3rem 0.3rem;
+    text-align: center;
+  }
+  .media-frame figcaption .title{
+    font-family: 'Cinzel', serif;
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    color: var(--stage-text);
+  }
+  .media-frame figcaption .hint{
+    display: block;
+    margin-top: 0.35rem;
+    font-size: 0.74rem;
+    font-style: italic;
+    color: #8b7c62;
+  }
+  /* When a real <iframe> or <audio> is pasted inside .arch, this fills the frame properly */
+  .media-frame .arch iframe,
+  .media-frame .arch video{
+    width: 100%; height: 100%; border: 0;
+  }
+  .media-frame .arch audio{ width: 92%; }
+
+  /* ============================================================
+     TOUR DATES
+     ============================================================ */
+  .table-scroll{
+    overflow-x: auto;
+    border: 1px solid var(--paper-line);
+    box-shadow: var(--shadow);
+  }
+  table.tour{
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 620px;
+    background: var(--paper-deep);
+    font-variant-numeric: tabular-nums;
+  }
+  table.tour thead th{
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    text-align: left;
+    padding: 1rem 1.2rem;
+  }
+  table.tour tbody td{
+    padding: 1rem 1.2rem;
+    border-bottom: 1px solid var(--paper-line);
+    font-size: 0.96rem;
+    vertical-align: top;
+  }
+  table.tour tbody tr:nth-child(even){ background: rgba(42,31,20,0.035); }
+  table.tour tbody tr:last-child td{ border-bottom: none; }
+  table.tour .date{
+    font-weight: 500;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  table.tour .venue{ color: var(--ink); font-weight: 500; }
+  table.tour .loc{ color: var(--ink-faint); white-space: nowrap; }
+  .status{
+    display: inline-block;
+    font-family: 'Cinzel', serif;
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.32em 0.7em;
+    border: 1px solid currentColor;
+    white-space: nowrap;
+  }
+  .status.open{ color: var(--burgundy); }
+  .status.private{ color: var(--tobacco); }
+  .status.sold{ color: var(--ink-faint); }
+
+  /* ============================================================
+     CONTACT
+     ============================================================ */
+  .contact{
+    background:
+      radial-gradient(ellipse 120% 90% at 50% 110%, #241a11 0%, var(--stage) 45%, var(--stage-deep) 100%);
+    color: var(--stage-text);
+  }
+  .contact .section-head .eyebrow{ color: var(--gold-bright); }
+  .contact .section-head h2{ color: var(--stage-text); }
+  .contact .section-head p{ color: #cbb98e; }
+
+  .contact-panel{
+    max-width: 620px;
+    margin-inline: auto;
+    text-align: center;
+    border: 1px solid var(--stage-line);
+    padding: clamp(32px, 6vw, 54px);
+    background: rgba(244,241,234,0.02);
+  }
+  .contact-panel .email{
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.1rem, 3vw, 1.5rem);
+    color: var(--gold-bright);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    word-break: break-word;
+  }
+  .contact-panel .email:hover{ text-decoration: underline; }
+  .contact-panel .note{
+    margin-top: 1rem;
+    font-size: 0.92rem;
+    color: #a89679;
+    font-style: italic;
+  }
+
+  .socials{
+    display: flex;
+    justify-content: center;
+    gap: 2.2rem;
+    margin-top: 2.6rem;
+  }
+  .socials a{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: #cbb98e;
+    font-family: 'Cinzel', serif;
+    font-size: 0.66rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    transition: color 160ms ease;
+  }
+  .socials a:hover{ color: var(--gold-bright); }
+  .socials svg{ width: 26px; height: 26px; }
+  .socials svg *{ stroke: currentColor; fill: none; stroke-width: 1.4; }
+
+  /* ============================================================
+     FOOTER
+     ============================================================ */
+  footer{
+    background: var(--stage-deep);
+    color: #7a6c58;
+    text-align: center;
+    padding-block: 2.6rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.03em;
+  }
+  footer .fname{ color: #a89679; font-family: 'Cinzel', serif; letter-spacing: 0.1em; }
+
+  /* ============================================================
+     RESPONSIVE
+     ============================================================ */
+  @media (max-width: 760px){
+    .about-grid,
+    .rep-grid{ grid-template-columns: 1fr; }
+    .about-copy .drop{ font-size: 3rem; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- ============================================================
+       HERO
+       ============================================================ -->
+  <header class="hero" id="top">
+    <div class="wrap hero-inner">
+      <p class="eyebrow">Acoustic Gypsy Jazz &amp; Parisian Swing</p>
+      <h1>The Django Quartet</h1>
+      <p class="tagline">Hot Jazz &amp; Parisian Swing in the Spirit of the 1930s</p>
+
+      <svg class="sunburst on-stage" viewBox="0 0 108 42" aria-hidden="true">
+        <g>
+          <line x1="54" y1="42" x2="54" y2="4"/>
+          <line x1="54" y1="42" x2="27" y2="8"/>
+          <line x1="54" y1="42" x2="81" y2="8"/>
+          <line x1="54" y1="42" x2="8" y2="22"/>
+          <line x1="54" y1="42" x2="100" y2="22"/>
+          <line x1="54" y1="42" x2="40" y2="5"/>
+          <line x1="54" y1="42" x2="68" y2="5"/>
+        </g>
+        <circle cx="54" cy="42" r="3.5"/>
+      </svg>
+
+      <a class="btn btn-primary" href="#contact">Book the Band</a>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ============================================================
+         ABOUT
+         ============================================================ -->
+    <section id="about">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">The Band</p>
+          <h2>Le Style Manouche</h2>
+        </div>
+
+        <div class="about-grid">
+          <div class="about-copy">
+            <p><span class="drop">I</span>n a corner booth of a dimly lit room, four musicians lean into a single microphone the way their forebears did outside the Hôtel Claridge in 1934 — no drums, no amplifiers, just wood, wire, and breath. The Django Quartet plays acoustic Gypsy Jazz in the lineage of the Quintette du Hot Club de France, built around the same instrumentation Django Reinhardt and Stéphane Grappelli made legendary: lead guitar, rhythm guitars driving <em>la pompe</em>, violin, and upright bass.</p>
+            <p>We chase that same restless, cigarette-smoke energy — the breakneck runs, the aching minor-key ballads, the joy of a room that swings without a single drumbeat. Every arrangement is built by ear and by hand, the way it was before amplifiers made it easy to be loud instead of alive.</p>
+            <p>Whether we're opening for a wine bar's Tuesday crowd or closing out a private soirée until the candles gutter, the Quartet brings the sound of a Montmartre cellar club straight to the room — acoustic, intimate, and unmistakably hot.</p>
+          </div>
+
+          <aside class="lineup">
+            <h3>The Ensemble</h3>
+            <ul>
+              <li><span class="role">Lead Guitar</span><span class="desc">Django-style single-note lines</span></li>
+              <li><span class="role">Rhythm Guitar</span><span class="desc">The driving "la pompe" pulse</span></li>
+              <li><span class="role">Violin</span><span class="desc">Grappelli-inspired lyricism</span></li>
+              <li><span class="role">Upright Bass</span><span class="desc">Warm, walking foundation</span></li>
+            </ul>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         REPERTOIRE
+         ============================================================ -->
+    <section id="repertoire">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Sample Repertoire</p>
+          <h2>From Montmartre to Modern Manouche</h2>
+          <p>A working set list — swap in requests, and we'll gladly build a custom program for your event.</p>
+        </div>
+
+        <div class="rep-grid">
+          <div class="rep-card">
+            <header>
+              <h3>30s Swing Classics</h3>
+              <span>The Hot Club canon</span>
+            </header>
+            <ul class="song-list">
+              <li><span class="song-title">Minor Swing</span><span class="song-leader"></span><span class="song-credit">Reinhardt &amp; Grappelli</span></li>
+              <li><span class="song-title">Nuages</span><span class="song-leader"></span><span class="song-credit">Django Reinhardt</span></li>
+              <li><span class="song-title">Djangology</span><span class="song-leader"></span><span class="song-credit">Django Reinhardt</span></li>
+              <li><span class="song-title">Swing 42</span><span class="song-leader"></span><span class="song-credit">Django Reinhardt</span></li>
+              <li><span class="song-title">Belleville</span><span class="song-leader"></span><span class="song-credit">Django Reinhardt</span></li>
+              <li><span class="song-title">Daphne</span><span class="song-leader"></span><span class="song-credit">Django Reinhardt</span></li>
+              <li><span class="song-title">Dinah</span><span class="song-leader"></span><span class="song-credit">Harry Akst</span></li>
+              <li><span class="song-title">Sweet Georgia Brown</span><span class="song-leader"></span><span class="song-credit">Bernie / Pinkard / Casey</span></li>
+              <li><span class="song-title">Them There Eyes</span><span class="song-leader"></span><span class="song-credit">Pinkard / Tracey / Tauber</span></li>
+              <li><span class="song-title">I'll See You in My Dreams</span><span class="song-leader"></span><span class="song-credit">Isham Jones</span></li>
+            </ul>
+          </div>
+
+          <div class="rep-card modern">
+            <header>
+              <h3>Modern Songs, Swing Style</h3>
+              <span>Contemporary hits, manouche twist</span>
+            </header>
+            <ul class="song-list">
+              <li><span class="song-title">Creep</span><span class="song-leader"></span><span class="song-credit">Radiohead</span></li>
+              <li><span class="song-title">Get Lucky</span><span class="song-leader"></span><span class="song-credit">Daft Punk</span></li>
+              <li><span class="song-title">Valerie</span><span class="song-leader"></span><span class="song-credit">Amy Winehouse</span></li>
+              <li><span class="song-title">Take On Me</span><span class="song-leader"></span><span class="song-credit">a-ha</span></li>
+              <li><span class="song-title">Somebody Told Me</span><span class="song-leader"></span><span class="song-credit">The Killers</span></li>
+              <li><span class="song-title">Sweet Dreams (Are Made of This)</span><span class="song-leader"></span><span class="song-credit">Eurythmics</span></li>
+              <li><span class="song-title">Feeling Good</span><span class="song-leader"></span><span class="song-credit">Nina Simone</span></li>
+              <li><span class="song-title">Billie Jean</span><span class="song-leader"></span><span class="song-credit">Michael Jackson</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         MEDIA SHOWCASE
+         ============================================================ -->
+    <section id="media">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Hear the Quartet</p>
+          <h2>Media Showcase</h2>
+          <p>A sample from a recent set — full sessions and live recordings coming soon.</p>
+        </div>
+
+        <div class="media-grid">
+          <figure class="media-frame">
+            <div class="arch">
+              <!-- Paste a YouTube <iframe> embed here — it will fill this frame -->
+              <svg class="placeholder-icon" viewBox="0 0 60 60" aria-hidden="true">
+                <circle cx="30" cy="30" r="27"/>
+                <path d="M24 19 L42 30 L24 41 Z"/>
+              </svg>
+            </div>
+            <figcaption>
+              <span class="title">Live at Marcel's Wine Bar — Full Set</span>
+              <span class="hint">Video embed placeholder</span>
+            </figcaption>
+          </figure>
+
+          <figure class="media-frame">
+            <div class="arch">
+              <!-- Paste a YouTube <iframe> embed here — it will fill this frame -->
+              <svg class="placeholder-icon" viewBox="0 0 60 60" aria-hidden="true">
+                <circle cx="30" cy="30" r="27"/>
+                <path d="M24 19 L42 30 L24 41 Z"/>
+              </svg>
+            </div>
+            <figcaption>
+              <span class="title">"Minor Swing" — Studio Session</span>
+              <span class="hint">Video embed placeholder</span>
+            </figcaption>
+          </figure>
+
+          <figure class="media-frame audio">
+            <div class="arch">
+              <!-- Paste an <audio> player or Bandcamp/SoundCloud embed here -->
+              <svg class="placeholder-icon" viewBox="0 0 60 60" aria-hidden="true">
+                <circle cx="30" cy="30" r="27"/>
+                <path d="M22 22 v16 M30 16 v28 M38 22 v16 M46 26 v8" style="stroke:var(--gold-bright); stroke-width:2.2; stroke-linecap:round;"/>
+              </svg>
+            </div>
+            <figcaption>
+              <span class="title">Demo Reel — Listen</span>
+              <span class="hint">Audio embed placeholder</span>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TOUR DATES
+         ============================================================ -->
+    <section id="tour">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Upcoming Gigs</p>
+          <h2>Tour Dates</h2>
+        </div>
+
+        <div class="table-scroll">
+          <table class="tour">
+            <thead>
+              <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Venue</th>
+                <th scope="col">Location</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="date">Sep 27, 2026</td>
+                <td class="venue">Le Hibou Rouge</td>
+                <td class="loc">Portland, OR</td>
+                <td><span class="status open">Tickets Available</span></td>
+              </tr>
+              <tr>
+                <td class="date">Oct 10, 2026</td>
+                <td class="venue">The Gilded Carousel</td>
+                <td class="loc">New Orleans, LA</td>
+                <td><span class="status private">Doors at 8 PM</span></td>
+              </tr>
+              <tr>
+                <td class="date">Oct 24, 2026</td>
+                <td class="venue">Marcel's Wine Bar</td>
+                <td class="loc">Atlanta, GA</td>
+                <td><span class="status open">Tickets Available</span></td>
+              </tr>
+              <tr>
+                <td class="date">Nov 7, 2026</td>
+                <td class="venue">Riverside Django Festival</td>
+                <td class="loc">Seattle, WA</td>
+                <td><span class="status sold">Sold Out</span></td>
+              </tr>
+              <tr>
+                <td class="date">Nov 21, 2026</td>
+                <td class="venue">The Velvet Curtain</td>
+                <td class="loc">Chicago, IL</td>
+                <td><span class="status open">Tickets Available</span></td>
+              </tr>
+              <tr>
+                <td class="date">Dec 5, 2026</td>
+                <td class="venue">Holiday Soirée — Private Residence</td>
+                <td class="loc">San Francisco, CA</td>
+                <td><span class="status private">Private Event</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         CONTACT & BOOKING
+         ============================================================ -->
+    <section id="contact" class="contact">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Get in Touch</p>
+          <h2>Contact &amp; Booking</h2>
+          <p>Available for weddings, private events, restaurants, wine bars, and festivals.</p>
+        </div>
+
+        <div class="contact-panel">
+          <a class="email" href="mailto:booking@thedjangoquartet.com">booking@thedjangoquartet.com</a>
+          <p class="note">Tell us your date, venue, and set length — we'll send a program to match.</p>
+
+          <div class="socials">
+            <a href="https://instagram.com/thedjangoquartet" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="3" y="3" width="18" height="18" rx="5"/>
+                <circle cx="12" cy="12" r="4.2"/>
+                <circle cx="17.4" cy="6.6" r="0.9" fill="currentColor" stroke="none"/>
+              </svg>
+              Instagram
+            </a>
+            <a href="https://youtube.com/@thedjangoquartet" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="2.5" y="5.5" width="19" height="13" rx="3.2"/>
+                <path d="M10.4 9.2 L15.4 12 L10.4 14.8 Z" fill="currentColor" stroke="none"/>
+              </svg>
+              YouTube
+            </a>
+            <a href="https://facebook.com/thedjangoquartet" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="9.3"/>
+                <path d="M13.6 21 V13.2 H16 L16.4 10.2 H13.6 V8.4 C13.6 7.5 13.9 6.9 15.2 6.9 H16.5 V4.2 C16 4.1 15.1 4 14.1 4 C11.9 4 10.4 5.3 10.4 7.8 V10.2 H8 V13.2 H10.4 V21"/>
+              </svg>
+              Facebook
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span class="fname">The Django Quartet</span> · Acoustic Hot Jazz, in the Spirit of 1934 · © 2026
+    </div>
+  </footer>
+
+</body>
+</html>
