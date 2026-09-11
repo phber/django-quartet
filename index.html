@@ -12,29 +12,30 @@
 
 <style>
   /* ============================================================
-     TOKENS — franskt art déco: smaragd & guld, ingen ljus/mörk-toggle
+     TOKENS — TESTPALETT: hämtad ur klubbfotona (vinröda väggar,
+     mässingskrona, tegel, honungsfärgad gitarrlack)
      ============================================================ */
   :root{
-    --paper:        #0D3024;   /* djup skogsgrön — sektionsbotten */
-    --paper-deep:   #123B2A;   /* rikare smaragd — kortpaneler */
-    --paper-line:   rgba(212,175,55,0.22);
+    --paper:        #4A1B2E;   /* vinröd klubbvägg — sektionsbotten */
+    --paper-deep:   #351321;   /* djupare vin — kortpaneler */
+    --paper-line:   rgba(201,150,44,0.24);
 
-    --ink:          #FBE9D2;   /* ren alabaster — rubriker/hög kontrast */
-    --ink-soft:     #8A9A86;   /* blek oliv/grå — brödtext */
-    --ink-faint:    #6E7C6A;   /* dämpad oliv — bildtexter, metatext */
+    --ink:          #F3EAD9;   /* varm alabaster (skjortvitt) — rubriker */
+    --ink-soft:     #B79A8C;   /* dammig rosenbeige — brödtext */
+    --ink-faint:    #8C7268;   /* dämpad rosenbrun — bildtexter, metatext */
 
-    --burgundy:     #D4AF37;   /* metalliskt guld — primär accent */
-    --burgundy-deep:#8C6D1F;
-    --gold:         #D4AF37;
-    --gold-bright:  #E8C766;
-    --tobacco:      #A6832E;   /* dämpad brons-guld — sekundär accent */
+    --burgundy:     #C9962C;   /* mässingsguld — primär accent */
+    --burgundy-deep:#8A5A1E;
+    --gold:         #C9962C;
+    --gold-bright:  #E7BB55;   /* upplyst mässing/kristallkrona */
+    --tobacco:      #A85A3A;   /* tegelterrakotta — sekundär accent */
 
-    --stage:        #111217;   /* midnattssvart — alternativ sektionsbotten */
-    --stage-deep:   #08090A;
-    --stage-line:   rgba(212,175,55,0.32);
-    --stage-text:   #FBE9D2;
+    --stage:        #1C120D;   /* skuggigt tegel/mörkt trä — alternativ botten */
+    --stage-deep:   #0F0906;
+    --stage-line:   rgba(201,150,44,0.34);
+    --stage-text:   #F3EAD9;
 
-    --shadow: 0 18px 40px -20px rgba(4,10,7,0.55);
+    --shadow: 0 18px 40px -20px rgba(10,5,3,0.55);
   }
 
   /* ============================================================
@@ -47,8 +48,8 @@
     background-color: var(--paper);
     background-image:
       radial-gradient(ellipse 90% 60% at 50% 0%, rgba(0,0,0,0.18), transparent 62%),
-      repeating-linear-gradient(60deg, rgba(212,175,55,0.035) 0 1px, transparent 1px 27px),
-      repeating-linear-gradient(-60deg, rgba(212,175,55,0.035) 0 1px, transparent 1px 27px);
+      repeating-linear-gradient(60deg, rgba(201,150,44,0.04) 0 1px, transparent 1px 27px),
+      repeating-linear-gradient(-60deg, rgba(201,150,44,0.04) 0 1px, transparent 1px 27px);
     color: var(--ink-soft);
     font-family: 'Jost', 'Century Gothic', 'Futura', sans-serif;
     font-weight: 400;
@@ -199,9 +200,13 @@
      ============================================================ */
   .hero{
     position: relative;
-    background: radial-gradient(ellipse 120% 90% at 50% -10%, #0f2a1f 0%, var(--stage) 45%, var(--stage-deep) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 74vh;
+    background: radial-gradient(ellipse 120% 90% at 50% -10%, #241610 0%, var(--stage) 45%, var(--stage-deep) 100%);
     color: var(--stage-text);
-    padding-block: clamp(80px, 15vw, 148px) clamp(0px, 0vw, 0px);
+    padding-block: clamp(56px, 10vw, 96px) 0;
     overflow: hidden;
     scroll-margin-top: 0;
   }
@@ -209,14 +214,14 @@
   .hero-photo img{
     width: 100%; height: 100%;
     object-fit: cover;
-    object-position: 50% 22%;
-    filter: sepia(0.42) saturate(1.2) contrast(1.06) brightness(0.6);
+    object-position: 50% 32%;
+    filter: sepia(0.32) saturate(1.15) contrast(1.05) brightness(0.8);
   }
   .hero-photo::after{
     content: "";
     position: absolute; inset: 0;
     background:
-      radial-gradient(ellipse 120% 90% at 50% -10%, rgba(10,26,19,0.28) 0%, rgba(8,18,14,0.74) 48%, rgba(6,10,8,0.94) 100%);
+      linear-gradient(180deg, rgba(10,5,3,0.14) 0%, rgba(10,5,3,0.1) 30%, rgba(10,5,3,0.45) 68%, rgba(10,5,3,0.92) 100%);
   }
   .hero .rays{
     position: absolute;
@@ -226,48 +231,29 @@
     width: 160vw;
     aspect-ratio: 1 / 1;
     border-radius: 50%;
-    background: repeating-conic-gradient(from 0deg at 50% 50%, rgba(212,175,55,0.16) 0deg 3.2deg, transparent 3.2deg 11deg);
+    background: repeating-conic-gradient(from 0deg at 50% 50%, rgba(201,150,44,0.18) 0deg 3.2deg, transparent 3.2deg 11deg);
     pointer-events: none;
     z-index: 1;
   }
   .hero-inner{ position: relative; z-index: 2; text-align: center; max-width: 780px; margin-inline: auto; padding-inline: clamp(20px, 5vw, 56px); }
-  .hero .eyebrow{ color: var(--gold-bright); }
-
-  .monogram{
-    width: 86px; height: 86px;
-    border-radius: 50%;
-    margin: 1.6rem auto 0;
-    display: flex; align-items: center; justify-content: center;
-    background: repeating-conic-gradient(from 0deg, var(--gold-bright) 0deg 1.4deg, transparent 1.4deg 15deg);
-    box-shadow: 0 0 0 5px var(--stage), 0 0 0 6px var(--gold-bright);
-  }
-  .monogram span{
-    width: 68%; height: 68%;
-    border-radius: 50%;
-    background: var(--stage-deep);
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Cinzel', serif;
-    font-weight: 600;
-    font-size: 1rem;
-    letter-spacing: 0.12em;
-    color: var(--gold-bright);
-  }
+  .hero .eyebrow{ color: var(--gold-bright); text-shadow: 0 1px 10px rgba(0,0,0,0.55); }
 
   .hero h1{
     font-family: 'Abril Fatface', 'Cinzel', serif;
     color: var(--stage-text);
-    font-size: clamp(2.5rem, 8.2vw, 5.2rem);
-    line-height: 1.02;
-    margin-top: 1rem;
-    text-shadow: 0 2px 24px rgba(0,0,0,0.4);
+    font-size: clamp(2.1rem, 6.4vw, 4rem);
+    line-height: 1.04;
+    margin-top: 0.7rem;
+    text-shadow: 0 2px 26px rgba(0,0,0,0.65);
   }
   .hero .tagline{
     font-family: 'Cinzel', serif;
     font-weight: 500;
     font-size: clamp(1rem, 2.4vw, 1.3rem);
     letter-spacing: 0.05em;
-    color: #8A9A86;
+    color: #B79A8C;
     margin-top: 1.3rem;
+    text-shadow: 0 1px 10px rgba(0,0,0,0.55);
   }
   .hero .sunburst{ margin-top: 2rem; }
 
@@ -388,7 +374,7 @@
     font-style: italic;
     font-size: 0.76rem;
     letter-spacing: 0.02em;
-    color: rgba(13,48,36,0.8);
+    color: rgba(53,19,33,0.82);
     margin-top: 0.3rem;
     text-transform: none;
   }
@@ -427,7 +413,7 @@
   .photo-band::after{
     content: "";
     position: absolute; inset: 0;
-    background: linear-gradient(180deg, rgba(6,10,8,0.08) 0%, rgba(6,10,8,0.18) 60%, rgba(6,10,8,0.6) 100%);
+    background: linear-gradient(180deg, rgba(10,5,3,0.1) 0%, rgba(10,5,3,0.2) 60%, rgba(10,5,3,0.62) 100%);
   }
   .photo-band .caption{
     position: absolute;
@@ -439,7 +425,7 @@
     letter-spacing: 0.24em;
     text-transform: uppercase;
     color: var(--stage-text);
-    background: rgba(6,10,8,0.6);
+    background: rgba(10,5,3,0.62);
     border: 1px solid var(--stage-line);
     padding: 0.55em 0.9em;
   }
@@ -466,14 +452,14 @@
   }
   .media-frame .arch-overlay{
     position: absolute; inset: 0;
-    background: radial-gradient(circle at 50% 50%, rgba(6,10,8,0.15), rgba(6,10,8,0.65) 100%);
+    background: radial-gradient(circle at 50% 50%, rgba(10,5,3,0.16), rgba(10,5,3,0.66) 100%);
   }
   .media-frame .placeholder-icon{ position: relative; z-index: 1; width: 54px; height: 54px; opacity: 0.9; }
   .media-frame .placeholder-icon circle{ stroke: var(--gold-bright); fill: none; stroke-width: 1.4; }
   .media-frame .placeholder-icon path{ fill: var(--gold-bright); }
   .media-frame figcaption{ padding: 0.95rem 0.3rem 0.3rem; text-align: center; }
   .media-frame figcaption .title{ font-family: 'Cinzel', serif; font-size: 0.82rem; letter-spacing: 0.08em; color: var(--stage-text); }
-  .media-frame figcaption .hint{ display: block; margin-top: 0.35rem; font-size: 0.74rem; font-style: italic; color: #76856f; }
+  .media-frame figcaption .hint{ display: block; margin-top: 0.35rem; font-size: 0.74rem; font-style: italic; color: #8C7268; }
   /* När en riktig <iframe> eller <audio> klistras in i .arch fyller den ramen korrekt */
   .media-frame .arch iframe, .media-frame .arch video{ width: 100%; height: 100%; border: 0; }
   .media-frame .arch audio{ width: 92%; }
@@ -501,7 +487,7 @@
     padding: 1rem 1.2rem;
   }
   table.tour tbody td{ padding: 1rem 1.2rem; border-bottom: 1px solid var(--paper-line); font-size: 0.96rem; vertical-align: top; }
-  table.tour tbody tr:nth-child(even){ background: rgba(212,175,55,0.055); }
+  table.tour tbody tr:nth-child(even){ background: rgba(201,150,44,0.06); }
   table.tour tbody tr:last-child td{ border-bottom: none; }
   table.tour .date{ font-weight: 500; color: var(--ink); white-space: nowrap; }
   table.tour .venue{ color: var(--ink); font-weight: 500; }
@@ -539,7 +525,7 @@
      ============================================================ */
   .contact{
     position: relative;
-    background: radial-gradient(ellipse 120% 90% at 50% 110%, #0f2a1f 0%, var(--stage) 45%, var(--stage-deep) 100%);
+    background: radial-gradient(ellipse 120% 90% at 50% 110%, #241610 0%, var(--stage) 45%, var(--stage-deep) 100%);
     color: var(--stage-text);
     overflow: hidden;
   }
@@ -553,13 +539,13 @@
   .contact-photo::after{
     content: "";
     position: absolute; inset: 0;
-    background: radial-gradient(ellipse 120% 90% at 50% 110%, rgba(10,26,19,0.38) 0%, rgba(8,18,14,0.83) 45%, rgba(6,10,8,0.95) 100%);
+    background: radial-gradient(ellipse 120% 90% at 50% 110%, rgba(30,19,14,0.38) 0%, rgba(18,11,8,0.83) 45%, rgba(10,5,3,0.95) 100%);
   }
   .contact > .wrap{ position: relative; z-index: 1; }
   .contact .chevron-band{ margin-bottom: clamp(48px, 8vw, 76px); }
   .contact .section-head .eyebrow{ color: var(--gold-bright); }
   .contact .section-head h2{ color: var(--stage-text); }
-  .contact .section-head .lead{ color: #8A9A86; }
+  .contact .section-head .lead{ color: #B79A8C; }
 
   .contact-panel{
     position: relative;
@@ -568,7 +554,7 @@
     text-align: center;
     border: 1px solid var(--stage-line);
     padding: clamp(32px, 6vw, 54px);
-    background: rgba(251,233,210,0.035);
+    background: rgba(243,234,217,0.04);
   }
   .contact-panel .email{
     font-family: 'Cinzel', serif;
@@ -579,12 +565,12 @@
     word-break: break-word;
   }
   .contact-panel .email:hover{ text-decoration: underline; }
-  .contact-panel .note{ margin-top: 1rem; font-size: 0.92rem; color: #8A9A86; font-style: italic; }
+  .contact-panel .note{ margin-top: 1rem; font-size: 0.92rem; color: #B79A8C; font-style: italic; }
 
   .socials{ display: flex; justify-content: center; gap: 2.2rem; margin-top: 2.6rem; }
   .socials a{
     display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
-    text-decoration: none; color: #8A9A86;
+    text-decoration: none; color: #B79A8C;
     font-family: 'Cinzel', serif; font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase;
     transition: color 160ms ease;
   }
@@ -596,7 +582,7 @@
      SIDFOT
      ============================================================ */
   footer{ background: var(--stage-deep); color: #6E7C6A; text-align: center; padding-block: 2.6rem; font-size: 0.8rem; letter-spacing: 0.03em; }
-  footer .fname{ color: #8A9A86; font-family: 'Cinzel', serif; letter-spacing: 0.1em; }
+  footer .fname{ color: #B79A8C; font-family: 'Cinzel', serif; letter-spacing: 0.1em; }
 
   /* ============================================================
      RESPONSIVT
@@ -619,8 +605,6 @@
     <div class="rays" aria-hidden="true"></div>
     <div class="hero-inner">
       <p class="eyebrow centered">Akustisk Gypsyjazz &amp; Parisisk Swing</p>
-
-      <div class="monogram" aria-hidden="true"><span>TDQ</span></div>
 
       <h1>The Django Quartet</h1>
       <p class="tagline">Het Jazz &amp; Parisisk Swing i 1930-talets Anda</p>
