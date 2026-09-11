@@ -340,8 +340,7 @@
   /* ============================================================
      REPERTOAR
      ============================================================ */
-  .rep-grid{ display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 5vw, 56px); }
-  .rep-card{ border: 1px solid var(--paper-line); background: var(--paper-deep); box-shadow: var(--shadow); }
+  .rep-card{ max-width: 880px; margin-inline: auto; border: 1px solid var(--paper-line); background: var(--paper-deep); box-shadow: var(--shadow); }
   .rep-card header{
     background: var(--burgundy);
     color: var(--paper);
@@ -349,7 +348,6 @@
     padding: 1.1rem 1rem 1.5rem;
     clip-path: polygon(0 0,100% 0,100% 82%,92.5% 100%,85% 82%,77.5% 100%,70% 82%,62.5% 100%,55% 82%,47.5% 100%,40% 82%,32.5% 100%,25% 82%,17.5% 100%,10% 82%,2.5% 100%,0 82%);
   }
-  .rep-card.modern header{ background: var(--tobacco); }
   .rep-card header h3{ color: inherit; font-size: 0.86rem; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 600; }
   .rep-card header span{
     display: block;
@@ -361,20 +359,26 @@
     margin-top: 0.3rem;
     text-transform: none;
   }
-  .song-list{ padding: 0.9rem clamp(20px, 4vw, 30px) 1.6rem; }
-  .song-list li{ display: flex; align-items: baseline; gap: 0.5em; padding-block: 0.72rem; border-bottom: 1px dotted var(--paper-line); }
-  .song-list li:last-child{ border-bottom: none; }
-  .song-num{
-    font-family: 'Cinzel', serif;
-    font-weight: 600;
-    font-size: 0.72rem;
-    color: var(--gold);
-    letter-spacing: 0.04em;
-    white-space: nowrap;
+  .song-list{
+    padding: 1.2rem clamp(20px, 4vw, 34px) 1.8rem;
+    columns: 2;
+    column-gap: clamp(24px, 4vw, 44px);
   }
-  .song-title{ font-weight: 500; color: var(--ink); white-space: nowrap; }
-  .song-leader{ flex: 1; border-bottom: 1px dotted var(--ink-faint); height: 0.5em; opacity: 0.6; }
+  .song-list li{
+    display: flex;
+    align-items: baseline;
+    gap: 0.5em;
+    padding-block: 0.72rem;
+    border-bottom: 1px dotted var(--paper-line);
+    break-inside: avoid;
+  }
+  .song-list li:last-child{ border-bottom: none; }
+  .song-title{ font-weight: 500; color: var(--ink); }
+  .song-leader{ flex: 1; min-width: 0.6em; border-bottom: 1px dotted var(--ink-faint); height: 0.5em; opacity: 0.6; }
   .song-credit{ font-style: italic; font-size: 0.86rem; color: var(--ink-faint); white-space: nowrap; }
+  @media (max-width: 640px){
+    .song-list{ columns: 1; }
+  }
 
   /* ============================================================
      MEDIA
@@ -506,7 +510,7 @@
      RESPONSIVT
      ============================================================ */
   @media (max-width: 760px){
-    .about-grid, .rep-grid{ grid-template-columns: 1fr; }
+    .about-grid{ grid-template-columns: 1fr; }
     .about-copy .drop{ font-size: 3rem; }
     .section-head{ flex-direction: column; align-items: flex-start; gap: 10px; }
     .section-head .head-rule{ width: 100%; margin-bottom: 0; }
@@ -594,56 +598,33 @@
         <div class="section-head">
           <div>
             <p class="eyebrow">Repertoar (urval)</p>
-            <h2>Från Montmartre till Modern Manouche</h2>
+            <h2>Ur Programmet</h2>
             <p class="lead">En arbetande spellista — vi bygger gärna ett skräddarsytt program för ert evenemang.</p>
           </div>
           <div class="head-rule" aria-hidden="true"></div>
         </div>
 
-        <div class="rep-grid">
-          <div class="rep-card deco-frame">
-            <span class="corner tl" aria-hidden="true"></span>
-            <span class="corner tr" aria-hidden="true"></span>
-            <span class="corner bl" aria-hidden="true"></span>
-            <span class="corner br" aria-hidden="true"></span>
-            <header>
-              <h3>30-talets Swingklassiker</h3>
-              <span>Hot Club-kanonen</span>
-            </header>
-            <ul class="song-list">
-              <li><span class="song-num">I.</span><span class="song-title">Minor Swing</span><span class="song-leader"></span><span class="song-credit">Reinhardt &amp; Grappelli</span></li>
-              <li><span class="song-num">II.</span><span class="song-title">Nuages</span><span class="song-leader"></span><span class="song-credit">Django Reinhardt</span></li>
-              <li><span class="song-num">III.</span><span class="song-title">Djangology</span><span class="song-leader"></span><span class="song-credit">Django Reinhardt</span></li>
-              <li><span class="song-num">IV.</span><span class="song-title">Swing 42</span><span class="song-leader"></span><span class="song-credit">Django Reinhardt</span></li>
-              <li><span class="song-num">V.</span><span class="song-title">Belleville</span><span class="song-leader"></span><span class="song-credit">Django Reinhardt</span></li>
-              <li><span class="song-num">VI.</span><span class="song-title">Daphne</span><span class="song-leader"></span><span class="song-credit">Django Reinhardt</span></li>
-              <li><span class="song-num">VII.</span><span class="song-title">Dinah</span><span class="song-leader"></span><span class="song-credit">Harry Akst</span></li>
-              <li><span class="song-num">VIII.</span><span class="song-title">Sweet Georgia Brown</span><span class="song-leader"></span><span class="song-credit">Bernie / Pinkard / Casey</span></li>
-              <li><span class="song-num">IX.</span><span class="song-title">Them There Eyes</span><span class="song-leader"></span><span class="song-credit">Pinkard / Tracey / Tauber</span></li>
-              <li><span class="song-num">X.</span><span class="song-title">I'll See You in My Dreams</span><span class="song-leader"></span><span class="song-credit">Isham Jones</span></li>
-            </ul>
-          </div>
-
-          <div class="rep-card modern deco-frame">
-            <span class="corner tl" aria-hidden="true"></span>
-            <span class="corner tr" aria-hidden="true"></span>
-            <span class="corner bl" aria-hidden="true"></span>
-            <span class="corner br" aria-hidden="true"></span>
-            <header>
-              <h3>Moderna Låtar, Swingstil</h3>
-              <span>Samtida hits, manouche-twist</span>
-            </header>
-            <ul class="song-list">
-              <li><span class="song-num">I.</span><span class="song-title">Creep</span><span class="song-leader"></span><span class="song-credit">Radiohead</span></li>
-              <li><span class="song-num">II.</span><span class="song-title">Get Lucky</span><span class="song-leader"></span><span class="song-credit">Daft Punk</span></li>
-              <li><span class="song-num">III.</span><span class="song-title">Valerie</span><span class="song-leader"></span><span class="song-credit">Amy Winehouse</span></li>
-              <li><span class="song-num">IV.</span><span class="song-title">Take On Me</span><span class="song-leader"></span><span class="song-credit">a-ha</span></li>
-              <li><span class="song-num">V.</span><span class="song-title">Somebody Told Me</span><span class="song-leader"></span><span class="song-credit">The Killers</span></li>
-              <li><span class="song-num">VI.</span><span class="song-title">Sweet Dreams (Are Made of This)</span><span class="song-leader"></span><span class="song-credit">Eurythmics</span></li>
-              <li><span class="song-num">VII.</span><span class="song-title">Feeling Good</span><span class="song-leader"></span><span class="song-credit">Nina Simone</span></li>
-              <li><span class="song-num">VIII.</span><span class="song-title">Billie Jean</span><span class="song-leader"></span><span class="song-credit">Michael Jackson</span></li>
-            </ul>
-          </div>
+        <div class="rep-card deco-frame">
+          <span class="corner tl" aria-hidden="true"></span>
+          <span class="corner tr" aria-hidden="true"></span>
+          <span class="corner bl" aria-hidden="true"></span>
+          <span class="corner br" aria-hidden="true"></span>
+          <header>
+            <h3>Kvällens Set</h3>
+            <span>Franskt, amerikanskt och svenskt i swingtakt</span>
+          </header>
+          <ul class="song-list">
+            <li><span class="song-title">Minor Swing</span><span class="song-leader"></span><span class="song-credit">Reinhardt &amp; Grappelli</span></li>
+            <li><span class="song-title">Sweet Georgia Brown</span><span class="song-leader"></span><span class="song-credit">Bernie / Pinkard / Casey</span></li>
+            <li><span class="song-title">Sakta vi gå genom stan</span><span class="song-leader"></span><span class="song-credit">Ahlert / Turk, sv. text Wolgers</span></li>
+            <li><span class="song-title">Si Tu Vois Ma Mère</span><span class="song-leader"></span><span class="song-credit">Django Reinhardt</span></li>
+            <li><span class="song-title">La Vie en Rose</span><span class="song-leader"></span><span class="song-credit">Piaf / Louiguy</span></li>
+            <li><span class="song-title">It Don't Mean a Thing</span><span class="song-leader"></span><span class="song-credit">Duke Ellington</span></li>
+            <li><span class="song-title">Night and Day</span><span class="song-leader"></span><span class="song-credit">Cole Porter</span></li>
+            <li><span class="song-title">Mr. Sandman</span><span class="song-leader"></span><span class="song-credit">The Chordettes</span></li>
+            <li><span class="song-title">La Mer</span><span class="song-leader"></span><span class="song-credit">Charles Trenet</span></li>
+            <li><span class="song-title">I'm Confessin'</span><span class="song-leader"></span><span class="song-credit">Dougherty / Reynolds / Neiburg</span></li>
+          </ul>
         </div>
       </div>
     </section>
