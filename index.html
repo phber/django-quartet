@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Django Quartet — Hot Club Jazz</title>
-<meta name="description" content="The Django Quartet performs acoustic Gypsy Jazz in the spirit of the Quintette du Hot Club de France — 1930s swing classics and modern songs reimagined as Parisian manouche.">
+<title>The Django Quartet — Het Jazz i Parisisk Anda</title>
+<meta name="description" content="The Django Quartet spelar akustisk gypsyjazz i Quintette du Hot Club de France-anda — 1930-talets swingklassiker och moderna låtar i manouche-stil.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,16 +12,16 @@
 
 <style>
   /* ============================================================
-     TOKENS — one fixed 1930s-Paris palette, no light/dark toggle
+     TOKENS — ett fast 1930-tals-Paris-palett, ingen ljus/mörk-toggle
      ============================================================ */
   :root{
-    --paper:        #f4f1ea;   /* aged cream / parchment */
-    --paper-deep:   #eae2ce;   /* deeper parchment, for cards */
+    --paper:        #f4f1ea;   /* åldrat kräm / pergament */
+    --paper-deep:   #eae2ce;   /* djupare pergament, till kort */
     --paper-line:   rgba(42,31,20,0.16);
 
-    --ink:          #241c14;   /* carbon / warm near-black */
-    --ink-soft:     #4d4032;   /* softer ink for body copy */
-    --ink-faint:    #7a6c58;   /* captions, meta text */
+    --ink:          #241c14;   /* kol / varm nästan-svart */
+    --ink-soft:     #4d4032;   /* mjukare bläck för brödtext */
+    --ink-faint:    #7a6c58;   /* bildtexter, metatext */
 
     --burgundy:     #6d1c2b;
     --burgundy-deep:#4a1420;
@@ -29,28 +29,27 @@
     --gold-bright:  #d3a14a;
     --tobacco:      #8a6a42;
 
-    --stage:        #1c150f;   /* smoky club backdrop */
+    --stage:        #1c150f;   /* rökig klubbatmosfär */
     --stage-deep:   #100b07;
     --stage-line:   rgba(211,161,74,0.35);
     --stage-text:   #ece2cf;
 
     --shadow: 0 18px 40px -20px rgba(16,11,7,0.45);
-    --radius: 2px;
   }
 
   /* ============================================================
-     RESET & BASE
+     RESET & BAS
      ============================================================ */
   *, *::before, *::after{ box-sizing: border-box; }
-  html{
-    scroll-behavior: smooth;
-  }
+  html{ scroll-behavior: smooth; }
   body{
     margin: 0;
     background-color: var(--paper);
     background-image:
       radial-gradient(ellipse 90% 60% at 50% 0%, rgba(28,21,15,0.05), transparent 62%),
-      repeating-linear-gradient(0deg, rgba(42,31,20,0.025) 0px, rgba(42,31,20,0.025) 1px, transparent 1px, transparent 3px);
+      repeating-linear-gradient(0deg, rgba(42,31,20,0.025) 0px, rgba(42,31,20,0.025) 1px, transparent 1px, transparent 3px),
+      repeating-linear-gradient(60deg, rgba(109,28,43,0.028) 0 1px, transparent 1px 27px),
+      repeating-linear-gradient(-60deg, rgba(109,28,43,0.028) 0 1px, transparent 1px 27px);
     color: var(--ink-soft);
     font-family: 'Jost', 'Century Gothic', 'Futura', sans-serif;
     font-weight: 400;
@@ -67,10 +66,7 @@
   p{ margin: 0; }
   a{ color: inherit; }
   ul{ margin: 0; padding: 0; list-style: none; }
-  :focus-visible{
-    outline: 2px solid var(--burgundy);
-    outline-offset: 3px;
-  }
+  :focus-visible{ outline: 2px solid var(--burgundy); outline-offset: 3px; }
   @media (prefers-reduced-motion: reduce){
     html{ scroll-behavior: auto; }
     *{ animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
@@ -83,98 +79,173 @@
   }
 
   .eyebrow{
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6em;
     font-family: 'Cinzel', serif;
     font-size: 0.72rem;
     font-weight: 600;
     letter-spacing: 0.32em;
     text-transform: uppercase;
   }
+  .eyebrow::before{
+    content: "";
+    width: 6px; height: 6px;
+    background: currentColor;
+    transform: rotate(45deg);
+    flex: none;
+  }
+  .eyebrow.centered::after{
+    content: "";
+    width: 6px; height: 6px;
+    background: currentColor;
+    transform: rotate(45deg);
+    flex: none;
+  }
 
   /* ============================================================
-     DECORATIVE ELEMENTS
+     DEKORATIVA ELEMENT
      ============================================================ */
-  .sunburst{
-    width: 108px;
-    height: 42px;
-    margin-inline: auto;
-  }
+  .sunburst{ width: 108px; height: 42px; margin-inline: auto; }
   .sunburst line{ stroke: var(--gold); stroke-width: 1.6; stroke-linecap: round; }
   .sunburst circle{ fill: var(--gold); }
   .sunburst.on-stage line{ stroke: var(--gold-bright); }
   .sunburst.on-stage circle{ fill: var(--gold-bright); }
 
-  .divider{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 18px;
-    margin-block: 8px 0;
+  /* Ziggurat-hörn — stegad art déco-fasning i alla fyra hörn av en ram */
+  .deco-frame{ position: relative; }
+  .corner{ position: absolute; width: 20px; height: 20px; pointer-events: none; z-index: 2; }
+  .corner::before{ content: ""; position: absolute; inset: 0; border-color: var(--gold); }
+  .corner::after{
+    content: "";
+    position: absolute;
+    width: 5px; height: 5px;
+    background: var(--gold);
+    transform: rotate(45deg);
   }
-  .divider .rule{
-    height: 1px;
-    width: clamp(24px, 8vw, 90px);
-    background: linear-gradient(90deg, transparent, var(--tobacco));
-  }
-  .divider .rule.right{ background: linear-gradient(90deg, var(--tobacco), transparent); }
+  .corner.tl{ top: -6px; left: -6px; }
+  .corner.tl::before{ border-top: 2px solid; border-left: 2px solid; }
+  .corner.tl::after{ top: 9px; left: 9px; }
+  .corner.tr{ top: -6px; right: -6px; }
+  .corner.tr::before{ border-top: 2px solid; border-right: 2px solid; }
+  .corner.tr::after{ top: 9px; right: 9px; }
+  .corner.bl{ bottom: -6px; left: -6px; }
+  .corner.bl::before{ border-bottom: 2px solid; border-left: 2px solid; }
+  .corner.bl::after{ bottom: 9px; left: 9px; }
+  .corner.br{ bottom: -6px; right: -6px; }
+  .corner.br::before{ border-bottom: 2px solid; border-right: 2px solid; }
+  .corner.br::after{ bottom: 9px; right: 9px; }
+  .deco-frame.on-stage .corner::before,
+  .deco-frame.on-stage .corner::after{ border-color: var(--gold-bright); background: var(--gold-bright); }
 
+  /* Diamantbjällror — repeterande zigzag-band, som en teaterridås fåll */
+  .chevron-band{
+    height: 15px;
+    background-image:
+      linear-gradient(135deg, var(--chev-fg, var(--gold)) 25%, transparent 25.5%),
+      linear-gradient(225deg, var(--chev-fg, var(--gold)) 25%, transparent 25.5%),
+      linear-gradient(315deg, var(--chev-fg, var(--gold)) 25%, transparent 25.5%),
+      linear-gradient(45deg,  var(--chev-fg, var(--gold)) 25%, transparent 25.5%);
+    background-size: 21px 21px;
+    background-color: var(--chev-bg, transparent);
+    opacity: 0.85;
+  }
+
+  /* Sektionsvinjett — vänsterställd programblads-rubrik med prickad linje */
   .section-head{
-    text-align: center;
-    max-width: 640px;
-    margin-inline: auto;
+    display: flex;
+    align-items: flex-end;
+    gap: clamp(16px, 4vw, 40px);
+    border-bottom: 1px solid var(--paper-line);
+    padding-bottom: 1.3rem;
     margin-bottom: clamp(40px, 6vw, 64px);
   }
   .section-head .eyebrow{ color: var(--burgundy); }
   .section-head h2{
-    font-size: clamp(1.7rem, 3.6vw, 2.5rem);
-    letter-spacing: 0.04em;
-    margin-top: 0.5rem;
+    font-size: clamp(1.5rem, 3.4vw, 2.3rem);
+    letter-spacing: 0.03em;
+    margin-top: 0.45rem;
   }
-  .section-head p{
-    margin-top: 1rem;
+  .section-head .lead{
+    margin-top: 0.7rem;
+    max-width: 46ch;
     color: var(--ink-faint);
     font-style: italic;
+    font-size: 0.96rem;
   }
+  .section-head .head-rule{
+    flex: 1;
+    min-width: 40px;
+    height: 0;
+    border-bottom: 1px dotted var(--tobacco);
+    margin-bottom: 0.6em;
+    opacity: 0.75;
+  }
+  .section-head.centered{
+    display: block;
+    text-align: center;
+    max-width: 640px;
+    margin-inline: auto;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  .section-head.centered .eyebrow{ justify-content: center; }
+  .section-head.centered .lead{ margin-inline: auto; max-width: 52ch; }
+  .section-head.centered h2{ margin-top: 0.5rem; }
 
-  section{ padding-block: clamp(64px, 9vw, 108px); scroll-margin-top: 24px; }
+  section{ padding-block: clamp(60px, 9vw, 100px); scroll-margin-top: 24px; }
 
   /* ============================================================
      HERO
      ============================================================ */
   .hero{
     position: relative;
-    background:
-      radial-gradient(ellipse 120% 90% at 50% -10%, #241a11 0%, var(--stage) 45%, var(--stage-deep) 100%);
+    background: radial-gradient(ellipse 120% 90% at 50% -10%, #241a11 0%, var(--stage) 45%, var(--stage-deep) 100%);
     color: var(--stage-text);
-    padding-block: clamp(88px, 16vw, 168px) clamp(72px, 12vw, 120px);
+    padding-block: clamp(80px, 15vw, 148px) clamp(0px, 0vw, 0px);
     overflow: hidden;
     scroll-margin-top: 0;
   }
-  .hero::before{
-    /* faint proscenium vignette */
-    content: "";
-    position: absolute; inset: 0;
-    background: radial-gradient(ellipse 70% 55% at 50% 30%, rgba(211,161,74,0.10), transparent 70%);
+  .hero .rays{
+    position: absolute;
+    top: -62%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 160vw;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    background: repeating-conic-gradient(from 0deg at 50% 50%, rgba(211,161,74,0.11) 0deg 3.2deg, transparent 3.2deg 11deg);
     pointer-events: none;
   }
-  .hero::after{
-    content: "";
-    position: absolute; left: 0; right: 0; bottom: 0; height: 6px;
-    background: linear-gradient(90deg, transparent, var(--gold-bright) 20%, var(--gold-bright) 80%, transparent);
-    opacity: 0.7;
-  }
-  .hero-inner{
-    position: relative;
-    text-align: center;
-    max-width: 780px;
-    margin-inline: auto;
-  }
+  .hero-inner{ position: relative; text-align: center; max-width: 780px; margin-inline: auto; padding-inline: clamp(20px, 5vw, 56px); }
   .hero .eyebrow{ color: var(--gold-bright); }
+
+  .monogram{
+    width: 86px; height: 86px;
+    border-radius: 50%;
+    margin: 1.6rem auto 0;
+    display: flex; align-items: center; justify-content: center;
+    background: repeating-conic-gradient(from 0deg, var(--gold-bright) 0deg 1.4deg, transparent 1.4deg 15deg);
+    box-shadow: 0 0 0 5px var(--stage), 0 0 0 6px var(--gold-bright);
+  }
+  .monogram span{
+    width: 68%; height: 68%;
+    border-radius: 50%;
+    background: var(--stage-deep);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: 0.12em;
+    color: var(--gold-bright);
+  }
+
   .hero h1{
     font-family: 'Abril Fatface', 'Cinzel', serif;
     color: var(--stage-text);
-    font-size: clamp(2.6rem, 8.5vw, 5.4rem);
+    font-size: clamp(2.5rem, 8.2vw, 5.2rem);
     line-height: 1.02;
-    margin-top: 0.9rem;
+    margin-top: 1rem;
     text-shadow: 0 2px 24px rgba(0,0,0,0.4);
   }
   .hero .tagline{
@@ -183,9 +254,9 @@
     font-size: clamp(1rem, 2.4vw, 1.3rem);
     letter-spacing: 0.05em;
     color: #cbb98e;
-    margin-top: 1.4rem;
+    margin-top: 1.3rem;
   }
-  .hero .sunburst{ margin-top: 2.1rem; }
+  .hero .sunburst{ margin-top: 2rem; }
 
   .btn{
     display: inline-block;
@@ -202,29 +273,16 @@
     position: relative;
     transition: background-color 180ms ease, color 180ms ease, transform 180ms ease;
   }
-  .btn::before, .btn::after{
-    content: "";
-    position: absolute;
-    width: 9px; height: 9px;
-    border-color: var(--gold-bright);
-  }
+  .btn::before, .btn::after{ content: ""; position: absolute; width: 9px; height: 9px; border-color: var(--gold-bright); }
   .btn::before{ top: -1px; left: -1px; border-top: 1px solid; border-left: 1px solid; }
   .btn::after{ bottom: -1px; right: -1px; border-bottom: 1px solid; border-right: 1px solid; }
   .btn:hover{ background: var(--gold-bright); color: var(--stage-deep); transform: translateY(-1px); }
+  .btn-primary{ margin-top: 2.4rem; }
 
-  .btn-primary{
-    margin-top: 2.6rem;
-  }
-
-  .btn-dark{
-    border-color: var(--burgundy);
-    color: var(--burgundy-deep);
-  }
-  .btn-dark::before, .btn-dark::after{ border-color: var(--burgundy); }
-  .btn-dark:hover{ background: var(--burgundy); color: var(--paper); }
+  .hero .chevron-band{ margin-top: clamp(56px, 9vw, 88px); }
 
   /* ============================================================
-     ABOUT
+     OM BANDET
      ============================================================ */
   .about-grid{
     display: grid;
@@ -277,40 +335,22 @@
     color: var(--ink);
     white-space: nowrap;
   }
-  .lineup .desc{
-    color: var(--ink-faint);
-    font-style: italic;
-    text-align: right;
-    font-size: 0.88rem;
-  }
+  .lineup .desc{ color: var(--ink-faint); font-style: italic; text-align: right; font-size: 0.88rem; }
 
   /* ============================================================
-     REPERTOIRE
+     REPERTOAR
      ============================================================ */
-  .rep-grid{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(28px, 5vw, 56px);
-  }
-  .rep-card{
-    border: 1px solid var(--paper-line);
-    background: var(--paper-deep);
-    box-shadow: var(--shadow);
-  }
+  .rep-grid{ display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 5vw, 56px); }
+  .rep-card{ border: 1px solid var(--paper-line); background: var(--paper-deep); box-shadow: var(--shadow); }
   .rep-card header{
     background: var(--burgundy);
     color: var(--paper);
     text-align: center;
-    padding: 1.1rem 1rem;
+    padding: 1.1rem 1rem 1.5rem;
+    clip-path: polygon(0 0,100% 0,100% 82%,92.5% 100%,85% 82%,77.5% 100%,70% 82%,62.5% 100%,55% 82%,47.5% 100%,40% 82%,32.5% 100%,25% 82%,17.5% 100%,10% 82%,2.5% 100%,0 82%);
   }
   .rep-card.modern header{ background: var(--tobacco); }
-  .rep-card header h3{
-    color: inherit;
-    font-size: 0.86rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    font-weight: 600;
-  }
+  .rep-card header h3{ color: inherit; font-size: 0.86rem; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 600; }
   .rep-card header span{
     display: block;
     font-family: 'Jost', sans-serif;
@@ -321,98 +361,49 @@
     margin-top: 0.3rem;
     text-transform: none;
   }
-  .song-list{ padding: 0.4rem clamp(20px, 4vw, 30px) 1.6rem; }
-  .song-list li{
-    display: flex;
-    align-items: baseline;
-    gap: 0.5em;
-    padding-block: 0.72rem;
-    border-bottom: 1px dotted var(--paper-line);
-  }
+  .song-list{ padding: 0.9rem clamp(20px, 4vw, 30px) 1.6rem; }
+  .song-list li{ display: flex; align-items: baseline; gap: 0.5em; padding-block: 0.72rem; border-bottom: 1px dotted var(--paper-line); }
   .song-list li:last-child{ border-bottom: none; }
-  .song-title{
-    font-weight: 500;
-    color: var(--ink);
+  .song-num{
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    font-size: 0.72rem;
+    color: var(--gold);
+    letter-spacing: 0.04em;
     white-space: nowrap;
   }
-  .song-leader{
-    flex: 1;
-    border-bottom: 1px dotted var(--ink-faint);
-    height: 0.5em;
-    opacity: 0.6;
-  }
-  .song-credit{
-    font-style: italic;
-    font-size: 0.86rem;
-    color: var(--ink-faint);
-    white-space: nowrap;
-  }
+  .song-title{ font-weight: 500; color: var(--ink); white-space: nowrap; }
+  .song-leader{ flex: 1; border-bottom: 1px dotted var(--ink-faint); height: 0.5em; opacity: 0.6; }
+  .song-credit{ font-style: italic; font-size: 0.86rem; color: var(--ink-faint); white-space: nowrap; }
 
   /* ============================================================
      MEDIA
      ============================================================ */
-  .media-grid{
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: clamp(24px, 4vw, 40px);
-  }
-  .media-frame{
-    background: var(--stage);
-    border: 1px solid var(--stage-line);
-    box-shadow: var(--shadow);
-    padding: 10px;
-  }
+  .media-grid{ display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: clamp(28px, 4vw, 44px); }
+  .media-frame{ position: relative; background: var(--stage); border: 1px solid var(--stage-line); box-shadow: var(--shadow); padding: 10px; }
   .media-frame .arch{
     position: relative;
     aspect-ratio: 16 / 9;
-    background:
-      radial-gradient(circle at 50% 120%, rgba(211,161,74,0.10), transparent 60%),
-      var(--stage-deep);
+    background: radial-gradient(circle at 50% 120%, rgba(211,161,74,0.10), transparent 60%), var(--stage-deep);
     border: 1px solid var(--stage-line);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; align-items: center; justify-content: center;
     overflow: hidden;
   }
   .media-frame.audio .arch{ aspect-ratio: 21 / 9; }
-  .media-frame .placeholder-icon{
-    width: 54px; height: 54px;
-    opacity: 0.85;
-  }
+  .media-frame .placeholder-icon{ width: 54px; height: 54px; opacity: 0.85; }
   .media-frame .placeholder-icon circle{ stroke: var(--gold-bright); fill: none; stroke-width: 1.4; }
   .media-frame .placeholder-icon path{ fill: var(--gold-bright); }
-  .media-frame figcaption{
-    padding: 0.95rem 0.3rem 0.3rem;
-    text-align: center;
-  }
-  .media-frame figcaption .title{
-    font-family: 'Cinzel', serif;
-    font-size: 0.82rem;
-    letter-spacing: 0.08em;
-    color: var(--stage-text);
-  }
-  .media-frame figcaption .hint{
-    display: block;
-    margin-top: 0.35rem;
-    font-size: 0.74rem;
-    font-style: italic;
-    color: #8b7c62;
-  }
-  /* When a real <iframe> or <audio> is pasted inside .arch, this fills the frame properly */
-  .media-frame .arch iframe,
-  .media-frame .arch video{
-    width: 100%; height: 100%; border: 0;
-  }
+  .media-frame figcaption{ padding: 0.95rem 0.3rem 0.3rem; text-align: center; }
+  .media-frame figcaption .title{ font-family: 'Cinzel', serif; font-size: 0.82rem; letter-spacing: 0.08em; color: var(--stage-text); }
+  .media-frame figcaption .hint{ display: block; margin-top: 0.35rem; font-size: 0.74rem; font-style: italic; color: #8b7c62; }
+  /* När en riktig <iframe> eller <audio> klistras in i .arch fyller den ramen korrekt */
+  .media-frame .arch iframe, .media-frame .arch video{ width: 100%; height: 100%; border: 0; }
   .media-frame .arch audio{ width: 92%; }
 
   /* ============================================================
-     TOUR DATES
+     TURNÉDATUM
      ============================================================ */
-  .table-scroll{
-    overflow-x: auto;
-    border: 1px solid var(--paper-line);
-    box-shadow: var(--shadow);
-  }
+  .table-scroll{ overflow-x: auto; border: 1px solid var(--paper-line); box-shadow: var(--shadow); }
   table.tour{
     width: 100%;
     border-collapse: collapse;
@@ -431,20 +422,19 @@
     text-align: left;
     padding: 1rem 1.2rem;
   }
-  table.tour tbody td{
-    padding: 1rem 1.2rem;
-    border-bottom: 1px solid var(--paper-line);
-    font-size: 0.96rem;
-    vertical-align: top;
-  }
+  table.tour tbody td{ padding: 1rem 1.2rem; border-bottom: 1px solid var(--paper-line); font-size: 0.96rem; vertical-align: top; }
   table.tour tbody tr:nth-child(even){ background: rgba(42,31,20,0.035); }
   table.tour tbody tr:last-child td{ border-bottom: none; }
-  table.tour .date{
-    font-weight: 500;
-    color: var(--ink);
-    white-space: nowrap;
-  }
+  table.tour .date{ font-weight: 500; color: var(--ink); white-space: nowrap; }
   table.tour .venue{ color: var(--ink); font-weight: 500; }
+  table.tour .venue::before{
+    content: "";
+    display: inline-block;
+    width: 5px; height: 5px;
+    background: var(--gold);
+    transform: rotate(45deg) translateY(-1px);
+    margin-right: 0.55em;
+  }
   table.tour .loc{ color: var(--ink-faint); white-space: nowrap; }
   .status{
     display: inline-block;
@@ -459,21 +449,24 @@
   }
   .status.open{ color: var(--burgundy); }
   .status.private{ color: var(--tobacco); }
-  .status.sold{ color: var(--ink-faint); }
+  .status.sold{
+    color: var(--ink-faint);
+    border-width: 2px;
+    transform: rotate(-4deg);
+    box-shadow: 0 0 0 2px var(--paper-deep);
+  }
 
   /* ============================================================
-     CONTACT
+     KONTAKT
      ============================================================ */
-  .contact{
-    background:
-      radial-gradient(ellipse 120% 90% at 50% 110%, #241a11 0%, var(--stage) 45%, var(--stage-deep) 100%);
-    color: var(--stage-text);
-  }
+  .contact{ background: radial-gradient(ellipse 120% 90% at 50% 110%, #241a11 0%, var(--stage) 45%, var(--stage-deep) 100%); color: var(--stage-text); }
+  .contact .chevron-band{ margin-bottom: clamp(48px, 8vw, 76px); }
   .contact .section-head .eyebrow{ color: var(--gold-bright); }
   .contact .section-head h2{ color: var(--stage-text); }
-  .contact .section-head p{ color: #cbb98e; }
+  .contact .section-head .lead{ color: #cbb98e; }
 
   .contact-panel{
+    position: relative;
     max-width: 620px;
     margin-inline: auto;
     text-align: center;
@@ -483,37 +476,20 @@
   }
   .contact-panel .email{
     font-family: 'Cinzel', serif;
-    font-size: clamp(1.1rem, 3vw, 1.5rem);
+    font-size: clamp(1.05rem, 3vw, 1.4rem);
     color: var(--gold-bright);
     text-decoration: none;
     letter-spacing: 0.02em;
     word-break: break-word;
   }
   .contact-panel .email:hover{ text-decoration: underline; }
-  .contact-panel .note{
-    margin-top: 1rem;
-    font-size: 0.92rem;
-    color: #a89679;
-    font-style: italic;
-  }
+  .contact-panel .note{ margin-top: 1rem; font-size: 0.92rem; color: #a89679; font-style: italic; }
 
-  .socials{
-    display: flex;
-    justify-content: center;
-    gap: 2.2rem;
-    margin-top: 2.6rem;
-  }
+  .socials{ display: flex; justify-content: center; gap: 2.2rem; margin-top: 2.6rem; }
   .socials a{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    text-decoration: none;
-    color: #cbb98e;
-    font-family: 'Cinzel', serif;
-    font-size: 0.66rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    text-decoration: none; color: #cbb98e;
+    font-family: 'Cinzel', serif; font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase;
     transition: color 160ms ease;
   }
   .socials a:hover{ color: var(--gold-bright); }
@@ -521,25 +497,19 @@
   .socials svg *{ stroke: currentColor; fill: none; stroke-width: 1.4; }
 
   /* ============================================================
-     FOOTER
+     SIDFOT
      ============================================================ */
-  footer{
-    background: var(--stage-deep);
-    color: #7a6c58;
-    text-align: center;
-    padding-block: 2.6rem;
-    font-size: 0.8rem;
-    letter-spacing: 0.03em;
-  }
+  footer{ background: var(--stage-deep); color: #7a6c58; text-align: center; padding-block: 2.6rem; font-size: 0.8rem; letter-spacing: 0.03em; }
   footer .fname{ color: #a89679; font-family: 'Cinzel', serif; letter-spacing: 0.1em; }
 
   /* ============================================================
-     RESPONSIVE
+     RESPONSIVT
      ============================================================ */
   @media (max-width: 760px){
-    .about-grid,
-    .rep-grid{ grid-template-columns: 1fr; }
+    .about-grid, .rep-grid{ grid-template-columns: 1fr; }
     .about-copy .drop{ font-size: 3rem; }
+    .section-head{ flex-direction: column; align-items: flex-start; gap: 10px; }
+    .section-head .head-rule{ width: 100%; margin-bottom: 0; }
   }
 </style>
 </head>
@@ -549,10 +519,14 @@
        HERO
        ============================================================ -->
   <header class="hero" id="top">
-    <div class="wrap hero-inner">
-      <p class="eyebrow">Acoustic Gypsy Jazz &amp; Parisian Swing</p>
+    <div class="rays" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <p class="eyebrow centered">Akustisk Gypsyjazz &amp; Parisisk Swing</p>
+
+      <div class="monogram" aria-hidden="true"><span>TDQ</span></div>
+
       <h1>The Django Quartet</h1>
-      <p class="tagline">Hot Jazz &amp; Parisian Swing in the Spirit of the 1930s</p>
+      <p class="tagline">Het Jazz &amp; Parisisk Swing i 1930-talets Anda</p>
 
       <svg class="sunburst on-stage" viewBox="0 0 108 42" aria-hidden="true">
         <g>
@@ -567,36 +541,45 @@
         <circle cx="54" cy="42" r="3.5"/>
       </svg>
 
-      <a class="btn btn-primary" href="#contact">Book the Band</a>
+      <a class="btn btn-primary" href="#contact">Boka Bandet</a>
     </div>
+    <div class="chevron-band" style="--chev-fg: var(--gold-bright); --chev-bg: transparent;" aria-hidden="true"></div>
   </header>
 
   <main>
 
     <!-- ============================================================
-         ABOUT
+         OM BANDET
          ============================================================ -->
     <section id="about">
       <div class="wrap">
         <div class="section-head">
-          <p class="eyebrow">The Band</p>
-          <h2>Le Style Manouche</h2>
+          <div>
+            <p class="eyebrow">Bandet</p>
+            <h2>Le Style Manouche</h2>
+            <p class="lead">Om kärleken till Hot Club de France-stilen och det akustiska hantverket.</p>
+          </div>
+          <div class="head-rule" aria-hidden="true"></div>
         </div>
 
         <div class="about-grid">
           <div class="about-copy">
-            <p><span class="drop">I</span>n a corner booth of a dimly lit room, four musicians lean into a single microphone the way their forebears did outside the Hôtel Claridge in 1934 — no drums, no amplifiers, just wood, wire, and breath. The Django Quartet plays acoustic Gypsy Jazz in the lineage of the Quintette du Hot Club de France, built around the same instrumentation Django Reinhardt and Stéphane Grappelli made legendary: lead guitar, rhythm guitars driving <em>la pompe</em>, violin, and upright bass.</p>
-            <p>We chase that same restless, cigarette-smoke energy — the breakneck runs, the aching minor-key ballads, the joy of a room that swings without a single drumbeat. Every arrangement is built by ear and by hand, the way it was before amplifiers made it easy to be loud instead of alive.</p>
-            <p>Whether we're opening for a wine bar's Tuesday crowd or closing out a private soirée until the candles gutter, the Quartet brings the sound of a Montmartre cellar club straight to the room — acoustic, intimate, and unmistakably hot.</p>
+            <p><span class="drop">I</span> ett skumt hörnbås lutar sig fyra musiker mot en enda mikrofon, precis som deras föregångare gjorde utanför Hôtel Claridge 1934 — inga trummor, inga förstärkare, bara trä, ståltråd och andetag. The Django Quartet spelar akustisk gypsyjazz i samma tradition som Quintette du Hot Club de France, byggd kring samma besättning som Django Reinhardt och Stéphane Grappelli gjorde legendarisk: sologitarr, kompgitarrer som driver <em>la pompe</em>, fiol och kontrabas.</p>
+            <p>Vi jagar samma rastlösa, cigarettrökiga energi — de halsbrytande löpningarna, de sörjande mollballaderna, glädjen i ett rum som swingar helt utan trumslag. Varje arrangemang byggs på gehör och för hand, så som det var innan förstärkare gjorde det enkelt att vara hög i volym istället för levande.</p>
+            <p>Oavsett om vi öppnar för en vinbars tisdagspublik eller avslutar en privat soaré tills ljusen brinner ut, tar Kvartetten med sig ljudet från en Montmartre-källarklubb rakt in i rummet — akustiskt, intimt och omisskännligt hett.</p>
           </div>
 
-          <aside class="lineup">
-            <h3>The Ensemble</h3>
+          <aside class="lineup deco-frame">
+            <span class="corner tl" aria-hidden="true"></span>
+            <span class="corner tr" aria-hidden="true"></span>
+            <span class="corner bl" aria-hidden="true"></span>
+            <span class="corner br" aria-hidden="true"></span>
+            <h3>Ensemblen</h3>
             <ul>
-              <li><span class="role">Lead Guitar</span><span class="desc">Django-style single-note lines</span></li>
-              <li><span class="role">Rhythm Guitar</span><span class="desc">The driving "la pompe" pulse</span></li>
-              <li><span class="role">Violin</span><span class="desc">Grappelli-inspired lyricism</span></li>
-              <li><span class="role">Upright Bass</span><span class="desc">Warm, walking foundation</span></li>
+              <li><span class="role">Sologitarr</span><span class="desc">Django-inspirerade enstämmiga löpningar</span></li>
+              <li><span class="role">Kompgitarr</span><span class="desc">Den drivande "la pompe"-pulsen</span></li>
+              <li><span class="role">Fiol</span><span class="desc">Grappelli-inspirerad lyrik</span></li>
+              <li><span class="role">Kontrabas</span><span class="desc">Varm, gående grund</span></li>
             </ul>
           </aside>
         </div>
@@ -604,50 +587,61 @@
     </section>
 
     <!-- ============================================================
-         REPERTOIRE
+         REPERTOAR
          ============================================================ -->
     <section id="repertoire">
       <div class="wrap">
         <div class="section-head">
-          <p class="eyebrow">Sample Repertoire</p>
-          <h2>From Montmartre to Modern Manouche</h2>
-          <p>A working set list — swap in requests, and we'll gladly build a custom program for your event.</p>
+          <div>
+            <p class="eyebrow">Repertoar (urval)</p>
+            <h2>Från Montmartre till Modern Manouche</h2>
+            <p class="lead">En arbetande spellista — vi bygger gärna ett skräddarsytt program för ert evenemang.</p>
+          </div>
+          <div class="head-rule" aria-hidden="true"></div>
         </div>
 
         <div class="rep-grid">
-          <div class="rep-card">
+          <div class="rep-card deco-frame">
+            <span class="corner tl" aria-hidden="true"></span>
+            <span class="corner tr" aria-hidden="true"></span>
+            <span class="corner bl" aria-hidden="true"></span>
+            <span class="corner br" aria-hidden="true"></span>
             <header>
-              <h3>30s Swing Classics</h3>
-              <span>The Hot Club canon</span>
+              <h3>30-talets Swingklassiker</h3>
+              <span>Hot Club-kanonen</span>
             </header>
             <ul class="song-list">
-              <li><span class="song-title">Minor Swing</span><span class="song-leader"></span><span class="song-credit">Reinhardt &amp; Grappelli</span></li>
-              <li><span class="song-title">Nuages</span><span class="song-leader"></span><span class="song-credit">Django Reinhardt</span></li>
-              <li><span class="song-title">Djangology</span><span class="song-leader"></span><span class="song-credit">Django Reinhardt</span></li>
-              <li><span class="song-title">Swing 42</span><span class="song-leader"></span><span class="song-credit">Django Reinhardt</span></li>
-              <li><span class="song-title">Belleville</span><span class="song-leader"></span><span class="song-credit">Django Reinhardt</span></li>
-              <li><span class="song-title">Daphne</span><span class="song-leader"></span><span class="song-credit">Django Reinhardt</span></li>
-              <li><span class="song-title">Dinah</span><span class="song-leader"></span><span class="song-credit">Harry Akst</span></li>
-              <li><span class="song-title">Sweet Georgia Brown</span><span class="song-leader"></span><span class="song-credit">Bernie / Pinkard / Casey</span></li>
-              <li><span class="song-title">Them There Eyes</span><span class="song-leader"></span><span class="song-credit">Pinkard / Tracey / Tauber</span></li>
-              <li><span class="song-title">I'll See You in My Dreams</span><span class="song-leader"></span><span class="song-credit">Isham Jones</span></li>
+              <li><span class="song-num">I.</span><span class="song-title">Minor Swing</span><span class="song-leader"></span><span class="song-credit">Reinhardt &amp; Grappelli</span></li>
+              <li><span class="song-num">II.</span><span class="song-title">Nuages</span><span class="song-leader"></span><span class="song-credit">Django Reinhardt</span></li>
+              <li><span class="song-num">III.</span><span class="song-title">Djangology</span><span class="song-leader"></span><span class="song-credit">Django Reinhardt</span></li>
+              <li><span class="song-num">IV.</span><span class="song-title">Swing 42</span><span class="song-leader"></span><span class="song-credit">Django Reinhardt</span></li>
+              <li><span class="song-num">V.</span><span class="song-title">Belleville</span><span class="song-leader"></span><span class="song-credit">Django Reinhardt</span></li>
+              <li><span class="song-num">VI.</span><span class="song-title">Daphne</span><span class="song-leader"></span><span class="song-credit">Django Reinhardt</span></li>
+              <li><span class="song-num">VII.</span><span class="song-title">Dinah</span><span class="song-leader"></span><span class="song-credit">Harry Akst</span></li>
+              <li><span class="song-num">VIII.</span><span class="song-title">Sweet Georgia Brown</span><span class="song-leader"></span><span class="song-credit">Bernie / Pinkard / Casey</span></li>
+              <li><span class="song-num">IX.</span><span class="song-title">Them There Eyes</span><span class="song-leader"></span><span class="song-credit">Pinkard / Tracey / Tauber</span></li>
+              <li><span class="song-num">X.</span><span class="song-title">I'll See You in My Dreams</span><span class="song-leader"></span><span class="song-credit">Isham Jones</span></li>
             </ul>
           </div>
 
-          <div class="rep-card modern">
+          <div class="rep-card modern deco-frame">
+            <span class="corner tl" aria-hidden="true"></span>
+            <span class="corner tr" aria-hidden="true"></span>
+            <span class="corner bl" aria-hidden="true"></span>
+            <span class="corner br" aria-hidden="true"></span>
             <header>
-              <h3>Modern Songs, Swing Style</h3>
-              <span>Contemporary hits, manouche twist</span>
+              <h3>Moderna Låtar, Swingstil</h3>
+              <span>Samtida hits, manouche-twist</span>
             </header>
             <ul class="song-list">
-              <li><span class="song-title">Creep</span><span class="song-leader"></span><span class="song-credit">Radiohead</span></li>
-              <li><span class="song-title">Get Lucky</span><span class="song-leader"></span><span class="song-credit">Daft Punk</span></li>
-              <li><span class="song-title">Valerie</span><span class="song-leader"></span><span class="song-credit">Amy Winehouse</span></li>
-              <li><span class="song-title">Take On Me</span><span class="song-leader"></span><span class="song-credit">a-ha</span></li>
-              <li><span class="song-title">Somebody Told Me</span><span class="song-leader"></span><span class="song-credit">The Killers</span></li>
-              <li><span class="song-title">Sweet Dreams (Are Made of This)</span><span class="song-leader"></span><span class="song-credit">Eurythmics</span></li>
-              <li><span class="song-title">Feeling Good</span><span class="song-leader"></span><span class="song-credit">Nina Simone</span></li>
-              <li><span class="song-title">Billie Jean</span><span class="song-leader"></span><span class="song-credit">Michael Jackson</span></li>
+              <li><span class="song-num">I.</span><span class="song-title">Creep</span><span class="song-leader"></span><span class="song-credit">Radiohead</span></li>
+              <li><span class="song-num">II.</span><span class="song-title">Get Lucky</span><span class="song-leader"></span><span class="song-credit">Daft Punk</span></li>
+              <li><span class="song-num">III.</span><span class="song-title">Valerie</span><span class="song-leader"></span><span class="song-credit">Amy Winehouse</span></li>
+              <li><span class="song-num">IV.</span><span class="song-title">Take On Me</span><span class="song-leader"></span><span class="song-credit">a-ha</span></li>
+              <li><span class="song-num">V.</span><span class="song-title">Somebody Told Me</span><span class="song-leader"></span><span class="song-credit">The Killers</span></li>
+              <li><span class="song-num">VI.</span><span class="song-title">Sweet Dreams (Are Made of This)</span><span class="song-leader"></span><span class="song-credit">Eurythmics</span></li>
+              <li><span class="song-num">VII.</span><span class="song-title">Feeling Good</span><span class="song-leader"></span><span class="song-credit">Nina Simone</span></li>
+              <li><span class="song-num">VIII.</span><span class="song-title">Billie Jean</span><span class="song-leader"></span><span class="song-credit">Michael Jackson</span></li>
             </ul>
           </div>
         </div>
@@ -655,56 +649,71 @@
     </section>
 
     <!-- ============================================================
-         MEDIA SHOWCASE
+         MEDIEGALLERI
          ============================================================ -->
     <section id="media">
       <div class="wrap">
         <div class="section-head">
-          <p class="eyebrow">Hear the Quartet</p>
-          <h2>Media Showcase</h2>
-          <p>A sample from a recent set — full sessions and live recordings coming soon.</p>
+          <div>
+            <p class="eyebrow">Lyssna på Kvartetten</p>
+            <h2>Mediegalleri</h2>
+            <p class="lead">Ett smakprov från en nyligen spelad kväll — fler inspelningar och liveklipp på gång.</p>
+          </div>
+          <div class="head-rule" aria-hidden="true"></div>
         </div>
 
         <div class="media-grid">
-          <figure class="media-frame">
+          <figure class="media-frame deco-frame on-stage">
+            <span class="corner tl" aria-hidden="true"></span>
+            <span class="corner tr" aria-hidden="true"></span>
+            <span class="corner bl" aria-hidden="true"></span>
+            <span class="corner br" aria-hidden="true"></span>
             <div class="arch">
-              <!-- Paste a YouTube <iframe> embed here — it will fill this frame -->
+              <!-- Klistra in en YouTube-<iframe>-inbäddning här — den fyller ramen automatiskt -->
               <svg class="placeholder-icon" viewBox="0 0 60 60" aria-hidden="true">
                 <circle cx="30" cy="30" r="27"/>
                 <path d="M24 19 L42 30 L24 41 Z"/>
               </svg>
             </div>
             <figcaption>
-              <span class="title">Live at Marcel's Wine Bar — Full Set</span>
-              <span class="hint">Video embed placeholder</span>
+              <span class="title">Live på Vinkällaren Marcel — Hela Spelningen</span>
+              <span class="hint">Platshållare för videoinbäddning</span>
             </figcaption>
           </figure>
 
-          <figure class="media-frame">
+          <figure class="media-frame deco-frame on-stage">
+            <span class="corner tl" aria-hidden="true"></span>
+            <span class="corner tr" aria-hidden="true"></span>
+            <span class="corner bl" aria-hidden="true"></span>
+            <span class="corner br" aria-hidden="true"></span>
             <div class="arch">
-              <!-- Paste a YouTube <iframe> embed here — it will fill this frame -->
+              <!-- Klistra in en YouTube-<iframe>-inbäddning här — den fyller ramen automatiskt -->
               <svg class="placeholder-icon" viewBox="0 0 60 60" aria-hidden="true">
                 <circle cx="30" cy="30" r="27"/>
                 <path d="M24 19 L42 30 L24 41 Z"/>
               </svg>
             </div>
             <figcaption>
-              <span class="title">"Minor Swing" — Studio Session</span>
-              <span class="hint">Video embed placeholder</span>
+              <span class="title">"Minor Swing" — Studiosession</span>
+              <span class="hint">Platshållare för videoinbäddning</span>
             </figcaption>
           </figure>
 
-          <figure class="media-frame audio">
+          <figure class="media-frame audio deco-frame on-stage">
+            <span class="corner tl" aria-hidden="true"></span>
+            <span class="corner tr" aria-hidden="true"></span>
+            <span class="corner bl" aria-hidden="true"></span>
+            <span class="corner br" aria-hidden="true"></span>
             <div class="arch">
-              <!-- Paste an <audio> player or Bandcamp/SoundCloud embed here -->
+              <!-- Klistra in en <audio>-spelare eller Bandcamp/SoundCloud-inbäddning här -->
               <svg class="placeholder-icon" viewBox="0 0 60 60" aria-hidden="true">
                 <circle cx="30" cy="30" r="27"/>
                 <path d="M22 22 v16 M30 16 v28 M38 22 v16 M46 26 v8" style="stroke:var(--gold-bright); stroke-width:2.2; stroke-linecap:round;"/>
               </svg>
             </div>
             <figcaption>
-              <span class="title">Demo Reel — Listen</span>
-              <span class="hint">Audio embed placeholder</span>
+              <span class="title">Demobrickan — Lyssna</span>
+              <span class="hint">Platshållare för ljudinbäddning</span>
             </figcaption>
           </figure>
         </div>
@@ -712,61 +721,65 @@
     </section>
 
     <!-- ============================================================
-         TOUR DATES
+         TURNÉDATUM
          ============================================================ -->
     <section id="tour">
       <div class="wrap">
         <div class="section-head">
-          <p class="eyebrow">Upcoming Gigs</p>
-          <h2>Tour Dates</h2>
+          <div>
+            <p class="eyebrow">Kommande Spelningar</p>
+            <h2>Turnédatum</h2>
+            <p class="lead">Höstens klubbrunda — fler datum tillkommer löpande.</p>
+          </div>
+          <div class="head-rule" aria-hidden="true"></div>
         </div>
 
         <div class="table-scroll">
           <table class="tour">
             <thead>
               <tr>
-                <th scope="col">Date</th>
-                <th scope="col">Venue</th>
-                <th scope="col">Location</th>
+                <th scope="col">Datum</th>
+                <th scope="col">Lokal</th>
+                <th scope="col">Ort</th>
                 <th scope="col">Status</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td class="date">Sep 27, 2026</td>
+                <td class="date">27 september 2026</td>
                 <td class="venue">Le Hibou Rouge</td>
-                <td class="loc">Portland, OR</td>
-                <td><span class="status open">Tickets Available</span></td>
+                <td class="loc">Stockholm</td>
+                <td><span class="status open">Biljetter Finns</span></td>
               </tr>
               <tr>
-                <td class="date">Oct 10, 2026</td>
-                <td class="venue">The Gilded Carousel</td>
-                <td class="loc">New Orleans, LA</td>
-                <td><span class="status private">Doors at 8 PM</span></td>
+                <td class="date">10 oktober 2026</td>
+                <td class="venue">Katakomben</td>
+                <td class="loc">Göteborg</td>
+                <td><span class="status private">Dörrarna 20:00</span></td>
               </tr>
               <tr>
-                <td class="date">Oct 24, 2026</td>
-                <td class="venue">Marcel's Wine Bar</td>
-                <td class="loc">Atlanta, GA</td>
-                <td><span class="status open">Tickets Available</span></td>
+                <td class="date">24 oktober 2026</td>
+                <td class="venue">Vinkällaren Marcel</td>
+                <td class="loc">Malmö</td>
+                <td><span class="status open">Biljetter Finns</span></td>
               </tr>
               <tr>
-                <td class="date">Nov 7, 2026</td>
-                <td class="venue">Riverside Django Festival</td>
-                <td class="loc">Seattle, WA</td>
-                <td><span class="status sold">Sold Out</span></td>
+                <td class="date">7 november 2026</td>
+                <td class="venue">Gyllene Karusellen</td>
+                <td class="loc">Lund</td>
+                <td><span class="status sold">Slutsålt</span></td>
               </tr>
               <tr>
-                <td class="date">Nov 21, 2026</td>
-                <td class="venue">The Velvet Curtain</td>
-                <td class="loc">Chicago, IL</td>
-                <td><span class="status open">Tickets Available</span></td>
+                <td class="date">21 november 2026</td>
+                <td class="venue">Sammetsridån</td>
+                <td class="loc">Uppsala</td>
+                <td><span class="status open">Biljetter Finns</span></td>
               </tr>
               <tr>
-                <td class="date">Dec 5, 2026</td>
-                <td class="venue">Holiday Soirée — Private Residence</td>
-                <td class="loc">San Francisco, CA</td>
-                <td><span class="status private">Private Event</span></td>
+                <td class="date">5 december 2026</td>
+                <td class="venue">Julsoaré — Privat Adress</td>
+                <td class="loc">Visby</td>
+                <td><span class="status private">Privat Tillställning</span></td>
               </tr>
             </tbody>
           </table>
@@ -775,19 +788,24 @@
     </section>
 
     <!-- ============================================================
-         CONTACT & BOOKING
+         KONTAKT & BOKNING
          ============================================================ -->
     <section id="contact" class="contact">
       <div class="wrap">
-        <div class="section-head">
-          <p class="eyebrow">Get in Touch</p>
-          <h2>Contact &amp; Booking</h2>
-          <p>Available for weddings, private events, restaurants, wine bars, and festivals.</p>
+        <div class="chevron-band" style="--chev-fg: var(--gold-bright); --chev-bg: transparent;" aria-hidden="true"></div>
+        <div class="section-head centered">
+          <p class="eyebrow centered">Hör av Er</p>
+          <h2>Kontakt &amp; Bokning</h2>
+          <p class="lead">Tillgängliga för bröllop, privata tillställningar, restauranger, vinbarer och festivaler.</p>
         </div>
 
-        <div class="contact-panel">
-          <a class="email" href="mailto:booking@thedjangoquartet.com">booking@thedjangoquartet.com</a>
-          <p class="note">Tell us your date, venue, and set length — we'll send a program to match.</p>
+        <div class="contact-panel deco-frame on-stage">
+          <span class="corner tl" aria-hidden="true"></span>
+          <span class="corner tr" aria-hidden="true"></span>
+          <span class="corner bl" aria-hidden="true"></span>
+          <span class="corner br" aria-hidden="true"></span>
+          <a class="email" href="mailto:bokning@thedjangoquartet.se">bokning@thedjangoquartet.se</a>
+          <p class="note">Berätta datum, lokal och speltid — så skickar vi ett program som passar.</p>
 
           <div class="socials">
             <a href="https://instagram.com/thedjangoquartet" target="_blank" rel="noopener noreferrer">
@@ -821,7 +839,7 @@
 
   <footer>
     <div class="wrap">
-      <span class="fname">The Django Quartet</span> · Acoustic Hot Jazz, in the Spirit of 1934 · © 2026
+      <span class="fname">The Django Quartet</span> · Akustisk Het Jazz, i 1934 års Anda · © 2026
     </div>
   </footer>
 
