@@ -523,7 +523,7 @@
     transform: rotate(45deg) translateY(-1px);
     margin-right: 0.55em;
   }
-  table.tour .loc{ color: var(--ink-faint); white-space: nowrap; }
+  table.tour .loc-inline{ color: var(--ink-faint); font-weight: 400; }
   .status{
     display: inline-block;
     font-family: 'Cinzel', serif;
@@ -737,7 +737,6 @@
 
     <div class="photo-band">
       <img src="./images/venue-wide.jpg" alt="The Django Quartet spelar live i klubbmiljö, med den spiralformade trappan och tegelväggen i bakgrunden.">
-      <span class="caption">Live på klubben</span>
     </div>
 
     <!-- ============================================================
@@ -875,45 +874,48 @@
               <tr>
                 <th scope="col">Datum</th>
                 <th scope="col">Lokal</th>
-                <th scope="col">Ort</th>
-                <th scope="col">Status</th>
+                <th scope="col" aria-label="Status"></th>
               </tr>
             </thead>
             <tbody>
               <tr>
+                <td class="date">26 augusti 2026</td>
+                <td class="venue">Hellstens Glashus<span class="loc-inline">, Stockholm</span></td>
+                <td><span class="status private">Mingelmusik</span></td>
+              </tr>
+              <tr>
+                <td class="date">19 september 2026</td>
+                <td class="venue">Scalateatern<span class="loc-inline">, Stockholm</span></td>
+                <td><span class="status private">Privat Spelning</span></td>
+              </tr>
+              <tr>
                 <td class="date">27 september 2026</td>
-                <td class="venue">Le Hibou Rouge</td>
-                <td class="loc">Stockholm</td>
+                <td class="venue">Le Hibou Rouge<span class="loc-inline">, Stockholm</span></td>
                 <td><span class="status open">Biljetter Finns</span></td>
               </tr>
               <tr>
                 <td class="date">10 oktober 2026</td>
-                <td class="venue">Katakomben</td>
-                <td class="loc">Göteborg</td>
+                <td class="venue">Katakomben<span class="loc-inline">, Göteborg</span></td>
                 <td><span class="status private">Dörrarna 20:00</span></td>
               </tr>
               <tr>
                 <td class="date">24 oktober 2026</td>
-                <td class="venue">Vinkällaren Marcel</td>
-                <td class="loc">Malmö</td>
+                <td class="venue">Vinkällaren Marcel<span class="loc-inline">, Malmö</span></td>
                 <td><span class="status open">Biljetter Finns</span></td>
               </tr>
               <tr>
                 <td class="date">7 november 2026</td>
-                <td class="venue">Gyllene Karusellen</td>
-                <td class="loc">Lund</td>
+                <td class="venue">Gyllene Karusellen<span class="loc-inline">, Lund</span></td>
                 <td><span class="status sold">Slutsålt</span></td>
               </tr>
               <tr>
                 <td class="date">21 november 2026</td>
-                <td class="venue">Sammetsridån</td>
-                <td class="loc">Uppsala</td>
+                <td class="venue">Sammetsridån<span class="loc-inline">, Uppsala</span></td>
                 <td><span class="status open">Biljetter Finns</span></td>
               </tr>
               <tr>
                 <td class="date">5 december 2026</td>
-                <td class="venue">Julsoaré — Privat Adress</td>
-                <td class="loc">Visby</td>
+                <td class="venue">Julsoaré — Privat Adress<span class="loc-inline">, Visby</span></td>
                 <td><span class="status private">Privat Tillställning</span></td>
               </tr>
             </tbody>
@@ -933,7 +935,6 @@
             <h2>Ge ett Bidrag</h2>
             <p class="lead">Tycker ni om det ni hör under kvällen? Ett bidrag går direkt till musikerna.</p>
           </div>
-          <div class="head-rule" aria-hidden="true"></div>
         </div>
 
         <div class="bidrag-card deco-frame">
@@ -970,7 +971,7 @@
           <p class="note">Berätta datum, lokal och speltid — så skickar vi ett program som passar.</p>
 
           <div class="socials">
-            <a href="https://instagram.com/thedjangoquartet" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.instagram.com/the.django.quartet/" target="_blank" rel="noopener noreferrer">
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <rect x="3" y="3" width="18" height="18" rx="5"/>
                 <circle cx="12" cy="12" r="4.2"/>
@@ -978,6 +979,7 @@
               </svg>
               Instagram
             </a>
+            <!-- Hidden for now — YouTube and Facebook aren't live yet.
             <a href="https://youtube.com/@thedjangoquartet" target="_blank" rel="noopener noreferrer">
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <rect x="2.5" y="5.5" width="19" height="13" rx="3.2"/>
@@ -992,6 +994,7 @@
               </svg>
               Facebook
             </a>
+            -->
           </div>
         </div>
       </div>
@@ -1001,7 +1004,7 @@
 
   <footer>
     <div class="wrap">
-      <span class="fname">The Django Quartet</span> · Akustisk Het Jazz, i 1934 års Anda · © 2026
+      <span class="fname">The Django Quartet</span> · Akustisk jazz i Djangos anda · © 2026
       <br><span style="font-size:0.72rem; opacity:0.85;">Foto: Mariscal Fotografia</span>
     </div>
   </footer>
