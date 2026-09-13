@@ -458,26 +458,46 @@
   /* ============================================================
      MEDIA
      ============================================================ */
-  .media-grid{ display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: clamp(28px, 4vw, 44px); }
-  .media-frame{ position: relative; background: var(--stage); border: 1px solid var(--stage-line); box-shadow: var(--shadow); padding: 10px; }
-  .media-frame .arch{
+  .media-grid{
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    gap: clamp(18px, 2.6vw, 28px);
+    align-items: stretch;
+  }
+  .media-video{ position: relative; }
+  .media-video .arch{
     position: relative;
+    height: 100%;
     aspect-ratio: 16 / 9;
-    background: radial-gradient(circle at 50% 120%, rgba(212,175,55,0.14), transparent 60%), var(--stage-deep);
-    border: 1px solid var(--stage-line);
-    display: flex; align-items: center; justify-content: center;
+    background: var(--stage-deep);
     overflow: hidden;
+    box-shadow: var(--shadow);
   }
-  .media-frame .arch img{
-    position: absolute; inset: 0;
-    width: 100%; height: 100%;
+  .media-video .arch iframe{ position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .video-toggle{
+    position: absolute; right: 16px; bottom: 16px; z-index: 2;
+    width: 44px; height: 44px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    background: rgba(10,5,3,0.55);
+    border: 1px solid var(--gold-bright);
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  .video-toggle:hover{ background: rgba(10,5,3,0.78); }
+  .video-toggle svg{ width: 20px; height: 20px; }
+  .video-toggle path{ fill: var(--gold-bright); }
+  .video-toggle .icon-pause{ display: none; }
+  .video-toggle[data-state="playing"] .icon-play{ display: none; }
+  .video-toggle[data-state="playing"] .icon-pause{ display: block; }
+  .media-photos{ display: flex; flex-direction: column; gap: clamp(18px, 2.6vw, 28px); height: 100%; }
+  .media-photos .media-photo{
+    display: block; width: 100%; flex: 1;
+    aspect-ratio: 4 / 3;
     object-fit: cover;
-    filter: sepia(0.38) saturate(1.15) contrast(1.05) brightness(0.7);
+    box-shadow: var(--shadow);
+    filter: sepia(0.38) saturate(1.15) contrast(1.05) brightness(0.86);
   }
-  .media-frame figcaption{ padding: 0.95rem 0.3rem 0.3rem; text-align: center; }
-  .media-frame figcaption .title{ font-family: 'Cinzel', serif; font-size: 0.82rem; letter-spacing: 0.08em; color: var(--stage-text); }
-  .media-frame .arch iframe, .media-frame .arch video{ width: 100%; height: 100%; border: 0; }
-  .media-frame .arch audio{ width: 92%; }
 
   /* ============================================================
      TURNÉDATUM
@@ -648,6 +668,8 @@
     .about-copy .drop{ font-size: 3rem; }
     .section-head{ flex-direction: column; align-items: flex-start; gap: 10px; }
     .section-head .head-rule{ width: 100%; margin-bottom: 0; }
+    .media-grid{ grid-template-columns: 1fr; }
+    .media-photos{ flex-direction: row; }
   }
 </style>
 </head>
@@ -780,48 +802,25 @@
           <div>
             <p class="eyebrow">Lyssna på Kvartetten</p>
             <h2>Mediegalleri</h2>
+            <p class="lead">Fler bilder och videos finns på vår instagram.</p>
           </div>
         </div>
 
         <div class="media-grid">
-          <figure class="media-frame deco-frame on-stage">
-            <span class="corner tl" aria-hidden="true"></span>
-            <span class="corner tr" aria-hidden="true"></span>
-            <span class="corner bl" aria-hidden="true"></span>
-            <span class="corner br" aria-hidden="true"></span>
+          <div class="media-video">
             <div class="arch">
-              <iframe src="https://player.vimeo.com/video/1226321800?title=0&amp;byline=0&amp;portrait=0&amp;controls=0&amp;dnt=1" loading="lazy" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="Live på Vinkällaren Marcel — Hela Spelningen"></iframe>
+              <iframe id="quartet-video" src="https://player.vimeo.com/video/1226321800?title=0&amp;byline=0&amp;portrait=0&amp;controls=0&amp;dnt=1" loading="lazy" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="Live på Vinkällaren Marcel — Hela Spelningen"></iframe>
+              <button type="button" class="video-toggle" data-state="paused" aria-label="Spela videon">
+                <svg class="icon-play" viewBox="0 0 60 60" aria-hidden="true"><path d="M24 19 L42 30 L24 41 Z"/></svg>
+                <svg class="icon-pause" viewBox="0 0 60 60" aria-hidden="true"><path d="M22 19h6v22h-6zM32 19h6v22h-6z"/></svg>
+              </button>
             </div>
-            <figcaption>
-              <span class="title">Live på Vinkällaren Marcel — Hela Spelningen</span>
-            </figcaption>
-          </figure>
+          </div>
 
-          <figure class="media-frame deco-frame on-stage">
-            <span class="corner tl" aria-hidden="true"></span>
-            <span class="corner tr" aria-hidden="true"></span>
-            <span class="corner bl" aria-hidden="true"></span>
-            <span class="corner br" aria-hidden="true"></span>
-            <div class="arch">
-              <img src="./images/media-violin.jpg" alt="" loading="lazy">
-            </div>
-            <figcaption>
-              <span class="title">"Minor Swing" — Studiosession</span>
-            </figcaption>
-          </figure>
-
-          <figure class="media-frame deco-frame on-stage">
-            <span class="corner tl" aria-hidden="true"></span>
-            <span class="corner tr" aria-hidden="true"></span>
-            <span class="corner bl" aria-hidden="true"></span>
-            <span class="corner br" aria-hidden="true"></span>
-            <div class="arch">
-              <img src="./images/media-room.jpg" alt="" loading="lazy">
-            </div>
-            <figcaption>
-              <span class="title">I studion</span>
-            </figcaption>
-          </figure>
+          <div class="media-photos">
+            <img class="media-photo" src="./images/media-violin.jpg" alt="" loading="lazy">
+            <img class="media-photo" src="./images/media-room.jpg" alt="" loading="lazy">
+          </div>
         </div>
       </div>
     </section>
@@ -950,5 +949,22 @@
     </div>
   </footer>
 
+  <script src="https://player.vimeo.com/api/player.js"></script>
+  <script>
+    (function(){
+      var iframe = document.getElementById('quartet-video');
+      var toggle = document.querySelector('.video-toggle');
+      if(!iframe || !toggle || typeof Vimeo === 'undefined') return;
+      var player = new Vimeo.Player(iframe);
+      toggle.addEventListener('click', function(){
+        player.getPaused().then(function(paused){
+          paused ? player.play() : player.pause();
+        });
+      });
+      player.on('play', function(){ toggle.setAttribute('data-state', 'playing'); toggle.setAttribute('aria-label', 'Pausa videon'); });
+      player.on('pause', function(){ toggle.setAttribute('data-state', 'paused'); toggle.setAttribute('aria-label', 'Spela videon'); });
+      player.on('ended', function(){ toggle.setAttribute('data-state', 'paused'); toggle.setAttribute('aria-label', 'Spela videon'); });
+    })();
+  </script>
 </body>
 </html>
