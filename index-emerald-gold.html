@@ -457,24 +457,14 @@
     display: flex; align-items: center; justify-content: center;
     overflow: hidden;
   }
-  .media-frame.audio .arch{ aspect-ratio: 21 / 9; }
   .media-frame .arch img{
     position: absolute; inset: 0;
     width: 100%; height: 100%;
     object-fit: cover;
     filter: sepia(0.38) saturate(1.15) contrast(1.05) brightness(0.7);
   }
-  .media-frame .arch-overlay{
-    position: absolute; inset: 0;
-    background: radial-gradient(circle at 50% 50%, rgba(6,10,8,0.15), rgba(6,10,8,0.65) 100%);
-  }
-  .media-frame .placeholder-icon{ position: relative; z-index: 1; width: 54px; height: 54px; opacity: 0.9; }
-  .media-frame .placeholder-icon circle{ stroke: var(--gold-bright); fill: none; stroke-width: 1.4; }
-  .media-frame .placeholder-icon path{ fill: var(--gold-bright); }
   .media-frame figcaption{ padding: 0.95rem 0.3rem 0.3rem; text-align: center; }
   .media-frame figcaption .title{ font-family: 'Cinzel', serif; font-size: 0.82rem; letter-spacing: 0.08em; color: var(--stage-text); }
-  .media-frame figcaption .hint{ display: block; margin-top: 0.35rem; font-size: 0.74rem; font-style: italic; color: #76856f; }
-  /* När en riktig <iframe> eller <audio> klistras in i .arch fyller den ramen korrekt */
   .media-frame .arch iframe, .media-frame .arch video{ width: 100%; height: 100%; border: 0; }
   .media-frame .arch audio{ width: 92%; }
 
@@ -683,10 +673,10 @@
               <span class="corner br" aria-hidden="true"></span>
               <h3>Ensemblen</h3>
               <ul>
-                <li><span class="role">Sologitarr — Konstantinos</span><span class="desc">Django-inspirerade enstämmiga löpningar</span></li>
-                <li><span class="role">Kompgitarr — Leonard</span><span class="desc">Den drivande "la pompe"-pulsen</span></li>
-                <li><span class="role">Fiol — Philip</span><span class="desc">Grappelli-inspirerad lyrik</span></li>
-                <li><span class="role">Kontrabas — Andreas</span><span class="desc">Varm, gående grund</span></li>
+                <li><span class="role">Sologitarr</span><span class="desc">Konstantinos</span></li>
+                <li><span class="role">Kompgitarr</span><span class="desc">Leonard</span></li>
+                <li><span class="role">Fiol</span><span class="desc">Philip</span></li>
+                <li><span class="role">Kontrabas</span><span class="desc">Andreas</span></li>
               </ul>
             </aside>
           </div>
@@ -759,17 +749,10 @@
             <span class="corner bl" aria-hidden="true"></span>
             <span class="corner br" aria-hidden="true"></span>
             <div class="arch">
-              <img src="./images/media-bass.jpg" alt="" loading="lazy">
-              <div class="arch-overlay" aria-hidden="true"></div>
-              <!-- Klistra in en YouTube-<iframe>-inbäddning här — den ersätter bilden och fyller ramen automatiskt -->
-              <svg class="placeholder-icon" viewBox="0 0 60 60" aria-hidden="true">
-                <circle cx="30" cy="30" r="27"/>
-                <path d="M24 19 L42 30 L24 41 Z"/>
-              </svg>
+              <iframe src="https://player.vimeo.com/video/1226321800?title=0&amp;byline=0&amp;portrait=0&amp;controls=0&amp;dnt=1" loading="lazy" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="Live på Vinkällaren Marcel — Hela Spelningen"></iframe>
             </div>
             <figcaption>
               <span class="title">Live på Vinkällaren Marcel — Hela Spelningen</span>
-              <span class="hint">Platshållare för videoinbäddning</span>
             </figcaption>
           </figure>
 
@@ -780,36 +763,22 @@
             <span class="corner br" aria-hidden="true"></span>
             <div class="arch">
               <img src="./images/media-violin.jpg" alt="" loading="lazy">
-              <div class="arch-overlay" aria-hidden="true"></div>
-              <!-- Klistra in en YouTube-<iframe>-inbäddning här — den ersätter bilden och fyller ramen automatiskt -->
-              <svg class="placeholder-icon" viewBox="0 0 60 60" aria-hidden="true">
-                <circle cx="30" cy="30" r="27"/>
-                <path d="M24 19 L42 30 L24 41 Z"/>
-              </svg>
             </div>
             <figcaption>
               <span class="title">"Minor Swing" — Studiosession</span>
-              <span class="hint">Platshållare för videoinbäddning</span>
             </figcaption>
           </figure>
 
-          <figure class="media-frame audio deco-frame on-stage">
+          <figure class="media-frame deco-frame on-stage">
             <span class="corner tl" aria-hidden="true"></span>
             <span class="corner tr" aria-hidden="true"></span>
             <span class="corner bl" aria-hidden="true"></span>
             <span class="corner br" aria-hidden="true"></span>
             <div class="arch">
               <img src="./images/media-room.jpg" alt="" loading="lazy">
-              <div class="arch-overlay" aria-hidden="true"></div>
-              <!-- Klistra in en <audio>-spelare eller Bandcamp/SoundCloud-inbäddning här — den ersätter bilden -->
-              <svg class="placeholder-icon" viewBox="0 0 60 60" aria-hidden="true">
-                <circle cx="30" cy="30" r="27"/>
-                <path d="M22 22 v16 M30 16 v28 M38 22 v16 M46 26 v8" style="stroke:var(--gold-bright); stroke-width:2.2; stroke-linecap:round;"/>
-              </svg>
             </div>
             <figcaption>
-              <span class="title">Demobrickan — Lyssna</span>
-              <span class="hint">Platshållare för ljudinbäddning</span>
+              <span class="title">I studion</span>
             </figcaption>
           </figure>
         </div>
