@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Django Quartet — Pressmaterial</title>
+<meta name="description" content="Pressmaterial för The Django Quartet: bio, besättning, bilder, bokningskontakt och teknisk rider.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Cinzel:wght@500;600&family=Jost:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+<style>
+  /* ============================================================
+     TOKENS — samma palett som huvudsidan
+     ============================================================ */
+  :root{
+    --paper:        #4A1B2E;
+    --paper-deep:   #351321;
+    --paper-line:   rgba(201,150,44,0.24);
+
+    --ink:          #F3EAD9;
+    --ink-soft:     #B79A8C;
+    --ink-faint:    #8C7268;
+
+    --burgundy:     #C9962C;
+    --gold:         #C9962C;
+    --gold-bright:  #E7BB55;
+
+    --stage:        #1C120D;
+    --stage-deep:   #0F0906;
+    --stage-line:   rgba(201,150,44,0.34);
+    --stage-text:   #F3EAD9;
+
+    --shadow: 0 18px 40px -20px rgba(10,5,3,0.55);
+  }
+
+  /* ============================================================
+     RESET & BAS
+     ============================================================ */
+  *, *::before, *::after{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  body{
+    margin: 0;
+    background-color: var(--paper);
+    background-image:
+      radial-gradient(ellipse 90% 60% at 50% 0%, rgba(0,0,0,0.18), transparent 62%),
+      repeating-linear-gradient(60deg, rgba(201,150,44,0.04) 0 1px, transparent 1px 27px),
+      repeating-linear-gradient(-60deg, rgba(201,150,44,0.04) 0 1px, transparent 1px 27px);
+    color: var(--ink-soft);
+    font-family: 'Jost', 'Century Gothic', 'Futura', sans-serif;
+    font-weight: 400;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  img{ max-width: 100%; display: block; }
+  h1, h2, h3{
+    font-family: 'Cinzel', 'Cormorant Garamond', serif;
+    color: var(--ink);
+    margin: 0;
+    text-wrap: balance;
+  }
+  p{ margin: 0; }
+  a{ color: inherit; }
+  ul, dl, dd{ margin: 0; padding: 0; list-style: none; }
+  :focus-visible{ outline: 2px solid var(--burgundy); outline-offset: 3px; }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior: auto; }
+    *{ animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+
+  .wrap{
+    max-width: 1080px;
+    margin-inline: auto;
+    padding-inline: clamp(20px, 5vw, 56px);
+  }
+
+  .eyebrow{
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6em;
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--burgundy);
+  }
+  .eyebrow::before{
+    content: "";
+    width: 6px; height: 6px;
+    background: currentColor;
+    transform: rotate(45deg);
+    flex: none;
+  }
+  .eyebrow.centered::after{
+    content: "";
+    width: 6px; height: 6px;
+    background: currentColor;
+    transform: rotate(45deg);
+    flex: none;
+  }
+
+  /* Ziggurat-hörn — samma dekorativa hörn som huvudsidan */
+  .deco-frame{ position: relative; }
+  .corner{ position: absolute; width: 20px; height: 20px; pointer-events: none; z-index: 2; }
+  .corner::before{ content: ""; position: absolute; inset: 0; border-color: var(--gold); }
+  .corner::after{
+    content: "";
+    position: absolute;
+    width: 5px; height: 5px;
+    background: var(--gold);
+    transform: rotate(45deg);
+  }
+  .corner.tl{ top: -6px; left: -6px; }
+  .corner.tl::before{ border-top: 2px solid; border-left: 2px solid; }
+  .corner.tl::after{ top: 9px; left: 9px; }
+  .corner.tr{ top: -6px; right: -6px; }
+  .corner.tr::before{ border-top: 2px solid; border-right: 2px solid; }
+  .corner.tr::after{ top: 9px; right: 9px; }
+  .corner.bl{ bottom: -6px; left: -6px; }
+  .corner.bl::before{ border-bottom: 2px solid; border-left: 2px solid; }
+  .corner.bl::after{ bottom: 9px; left: 9px; }
+  .corner.br{ bottom: -6px; right: -6px; }
+  .corner.br::before{ border-bottom: 2px solid; border-right: 2px solid; }
+  .corner.br::after{ bottom: 9px; right: 9px; }
+  .deco-frame.on-stage .corner::before,
+  .deco-frame.on-stage .corner::after{ border-color: var(--gold-bright); background: var(--gold-bright); }
+
+  /* Diamantbjällror — samma repeterande zigzag-band som huvudsidan */
+  .chevron-band{
+    height: 15px;
+    background-image:
+      linear-gradient(135deg, var(--chev-fg, var(--gold)) 25%, transparent 25.5%),
+      linear-gradient(225deg, var(--chev-fg, var(--gold)) 25%, transparent 25.5%),
+      linear-gradient(315deg, var(--chev-fg, var(--gold)) 25%, transparent 25.5%),
+      linear-gradient(45deg,  var(--chev-fg, var(--gold)) 25%, transparent 25.5%);
+    background-size: 21px 21px;
+    background-color: var(--chev-bg, transparent);
+    opacity: 0.85;
+  }
+
+  .section-head{
+    display: flex;
+    align-items: flex-end;
+    gap: clamp(16px, 4vw, 40px);
+    border-bottom: 1px solid var(--paper-line);
+    padding-bottom: 1.3rem;
+    margin-bottom: clamp(24px, 3.5vw, 40px);
+  }
+  .section-head h2{
+    font-size: clamp(1.5rem, 3.4vw, 2.3rem);
+    letter-spacing: 0.03em;
+    margin-top: 0.45rem;
+  }
+  .section-head .lead{
+    margin-top: 0.7rem;
+    max-width: 46ch;
+    color: var(--ink-faint);
+    font-style: italic;
+    font-size: 0.96rem;
+  }
+  .section-head.centered{
+    display: block;
+    text-align: center;
+    max-width: 640px;
+    margin-inline: auto;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  .section-head.centered .eyebrow{ justify-content: center; }
+  .section-head.centered .lead{ margin-inline: auto; max-width: 52ch; }
+  .section-head.centered h2{ margin-top: 0.5rem; }
+
+  section{ padding-block: clamp(44px, 6.5vw, 76px); scroll-margin-top: 24px; }
+
+  /* ============================================================
+     SIDHUVUD — kompakt, ingen hero-bild eller CTA:er
+     ============================================================ */
+  .press-header{
+    text-align: center;
+    padding-block: clamp(40px, 7vw, 72px) clamp(32px, 5vw, 56px);
+  }
+  .press-header h1{
+    font-family: 'Abril Fatface', 'Cinzel', serif;
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    margin-top: 0.6rem;
+  }
+  .press-header .tagline{
+    font-family: 'Cinzel', serif;
+    font-weight: 500;
+    font-size: clamp(0.92rem, 2vw, 1.05rem);
+    letter-spacing: 0.03em;
+    color: var(--ink-faint);
+    max-width: 46ch;
+    margin: 1rem auto 0;
+  }
+
+  /* ============================================================
+     BIO
+     ============================================================ */
+  .press-copy{ max-width: 70ch; margin-inline: auto; }
+  .press-copy p{ margin-bottom: 1.15em; font-size: 1.06rem; }
+  .press-copy p:last-child{ margin-bottom: 0; }
+  .press-copy .drop{
+    font-family: 'Abril Fatface', serif;
+    float: left;
+    font-size: 3.6rem;
+    line-height: 0.8;
+    color: var(--burgundy);
+    padding: 0.08em 0.1em 0 0;
+  }
+
+  /* ============================================================
+     BESÄTTNING
+     ============================================================ */
+  .lineup{
+    max-width: 420px;
+    margin-inline: auto;
+    border: 1px solid var(--paper-line);
+    background: var(--paper-deep);
+    padding: clamp(24px, 4vw, 34px);
+    box-shadow: var(--shadow);
+  }
+  .lineup h3{
+    font-size: 0.78rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--burgundy);
+    text-align: center;
+    padding-bottom: 1rem;
+    margin-bottom: 1.2rem;
+    border-bottom: 1px solid var(--paper-line);
+  }
+  .lineup li{
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding-block: 0.65rem;
+    border-bottom: 1px dotted var(--paper-line);
+    font-size: 0.94rem;
+  }
+  .lineup li:last-child{ border-bottom: none; }
+  .lineup .role{
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .lineup .desc{ color: var(--ink-faint); font-style: italic; text-align: right; font-size: 0.88rem; }
+
+  /* ============================================================
+     PRESSBILDER
+     ============================================================ */
+  .press-photos{ display: flex; flex-direction: row; flex-wrap: wrap; gap: clamp(18px, 2.6vw, 28px); }
+  .press-photos .press-photo{
+    display: block; flex: 1 1 200px; min-width: 0;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    box-shadow: var(--shadow);
+    filter: sepia(0.38) saturate(1.15) contrast(1.05) brightness(0.86);
+  }
+  .photo-credit{ margin-top: 1.2rem; text-align: center; font-style: italic; font-size: 0.82rem; color: var(--ink-faint); opacity: 0.85; }
+
+  /* ============================================================
+     KONTAKT — samma mörka scenbakgrund som huvudsidans kontaktsektion
+     ============================================================ */
+  .contact{
+    position: relative;
+    background: radial-gradient(ellipse 120% 90% at 50% 110%, #241610 0%, var(--stage) 45%, var(--stage-deep) 100%);
+    color: var(--stage-text);
+  }
+  .contact .chevron-band{ margin-bottom: clamp(48px, 8vw, 76px); }
+  .contact .section-head .eyebrow{ color: var(--gold-bright); }
+  .contact .section-head h2{ color: var(--stage-text); }
+  .contact .section-head .lead{ color: #B79A8C; }
+
+  .contact-panel{
+    position: relative;
+    max-width: 620px;
+    margin-inline: auto;
+    text-align: center;
+    border: 1px solid var(--stage-line);
+    padding: clamp(32px, 6vw, 54px);
+    background: rgba(243,234,217,0.04);
+  }
+  .contact-panel .contact-name{
+    font-family: 'Cinzel', serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--stage-text);
+    opacity: 0.85;
+    margin-bottom: 0.9rem;
+  }
+  .contact-panel .email{
+    display: block;
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.05rem, 3vw, 1.4rem);
+    color: var(--gold-bright);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    word-break: break-word;
+  }
+  .contact-panel .email:hover{ text-decoration: underline; }
+  .contact-panel .phone{
+    display: block;
+    margin-top: 0.6rem;
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    color: var(--gold-bright);
+    text-decoration: none;
+    letter-spacing: 0.03em;
+  }
+  .contact-panel .phone:hover{ text-decoration: underline; }
+  .contact-panel .note{ margin-top: 1rem; font-size: 0.92rem; color: #B79A8C; font-style: italic; }
+
+  .socials{ display: flex; justify-content: center; gap: 2.2rem; margin-top: 2.6rem; }
+  .socials a{
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    text-decoration: none; color: #B79A8C;
+    font-family: 'Cinzel', serif; font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase;
+    transition: color 160ms ease;
+  }
+  .socials a:hover{ color: var(--gold-bright); }
+  .socials svg{ width: 26px; height: 26px; }
+  .socials svg *{ stroke: currentColor; fill: none; stroke-width: 1.4; }
+
+  /* ============================================================
+     TEKNISK RIDER
+     ============================================================ */
+  .rider-card{ max-width: 880px; margin-inline: auto; border: 1px solid var(--paper-line); background: var(--paper-deep); box-shadow: var(--shadow); }
+  .rider-card header{
+    background: var(--burgundy);
+    color: var(--paper);
+    text-align: center;
+    padding: 1.1rem 1rem 1.5rem;
+    clip-path: polygon(0 0,100% 0,100% 82%,92.5% 100%,85% 82%,77.5% 100%,70% 82%,62.5% 100%,55% 82%,47.5% 100%,40% 82%,32.5% 100%,25% 82%,17.5% 100%,10% 82%,2.5% 100%,0 82%);
+  }
+  .rider-card header h3{ color: inherit; font-size: 0.86rem; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 600; }
+  .rider-card header span{
+    display: block;
+    font-family: 'Jost', sans-serif;
+    font-style: italic;
+    font-size: 0.76rem;
+    letter-spacing: 0.02em;
+    color: rgba(53,19,33,0.82);
+    margin-top: 0.3rem;
+    text-transform: none;
+  }
+  .rider-grid{
+    margin: 0;
+    padding: 1.4rem clamp(20px, 4vw, 34px) 1.8rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.6rem clamp(24px, 4vw, 44px);
+  }
+  .rider-grid dt{
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--burgundy);
+    margin-bottom: 0.35rem;
+  }
+  .rider-grid dd{ margin: 0; font-size: 0.94rem; color: var(--ink-soft); }
+  .rider-grid dd strong{ color: var(--ink); font-weight: 600; }
+  .rider-grid .full{ grid-column: 1 / -1; }
+  .rider-note{
+    margin: 1.6rem clamp(20px, 4vw, 34px) 0;
+    padding-top: 1.4rem;
+    border-top: 1px dotted var(--paper-line);
+    text-align: center;
+    font-style: italic;
+    color: var(--ink-faint);
+    font-size: 0.92rem;
+  }
+  @media (max-width: 640px){
+    .rider-grid{ grid-template-columns: 1fr; }
+  }
+
+  /* ============================================================
+     SIDFOT
+     ============================================================ */
+  footer{ background: var(--stage-deep); color: #6E7C6A; text-align: center; padding-block: 2.6rem; font-size: 0.8rem; letter-spacing: 0.03em; }
+  footer .fname{ color: #B79A8C; font-family: 'Cinzel', serif; letter-spacing: 0.1em; }
+
+  /* ============================================================
+     RESPONSIVT
+     ============================================================ */
+  @media (max-width: 760px){
+    .section-head{ flex-direction: column; align-items: flex-start; gap: 10px; }
+  }
+</style>
+</head>
+<body>
+
+  <header class="press-header wrap">
+    <p class="eyebrow centered">Pressmaterial</p>
+    <h1>The Django Quartet</h1>
+    <p class="tagline">Akustisk gypsyjazz i 1930-talets anda — bio, bilder, kontakt och teknisk rider för bokare och arrangörer.</p>
+  </header>
+  <div class="chevron-band" style="--chev-fg: var(--gold); --chev-bg: transparent;" aria-hidden="true"></div>
+
+  <main>
+
+    <!-- ============================================================
+         OM BANDET
+         ============================================================ -->
+    <section id="bio">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Om Bandet</p>
+            <h2>Bakgrund</h2>
+          </div>
+        </div>
+
+        <div class="press-copy">
+          <p><span class="drop">T</span>he Django Quartet grundades 2026 i Stockholm av fyra musiker med en gemensam förkärlek för manouche-jazz i den tradition som Django Reinhardt och Stéphane Grappelli etablerade i Quintette du Hot Club de France. Besättningen består av sologitarr, kompgitarr, fiol och kontrabas — helt akustiskt, utan trummor eller förstärkare, på samma sätt som förebilderna spelade på 1930-talet.</p>
+          <p>Vi anlitas för allt ifrån privata fester och mingel, där musiken ska skapa en stämning utan att ta över samtalet, till klubbar och restauranger där publiken kommer för att lyssna. Repertoaren anpassas efter tillfället: samma arrangemang fungerar lika bra som diskret bakgrundsmusik under en middag som i ett konsertrum med full uppmärksamhet.</p>
+          <p>Instrumenten är valda med samma omsorg som musiken: gitarrer i Selmer-Maccaferri-stil, samma modell Django själv spelade, fiolen svävande i höjden och kontrabasen i djupet. Tillsammans ger de en klang som känns igen från 1930-talets Paris — varm, akustisk och utan en enda kabel i vägen.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         BESÄTTNING
+         ============================================================ -->
+    <section id="lineup">
+      <div class="wrap">
+        <aside class="lineup deco-frame">
+          <span class="corner tl" aria-hidden="true"></span>
+          <span class="corner tr" aria-hidden="true"></span>
+          <span class="corner bl" aria-hidden="true"></span>
+          <span class="corner br" aria-hidden="true"></span>
+          <h3>Ensemblen</h3>
+          <ul>
+            <li><span class="role">Sologitarr</span><span class="desc">Konstantinos</span></li>
+            <li><span class="role">Kompgitarr</span><span class="desc">Leonard</span></li>
+            <li><span class="role">Fiol</span><span class="desc">Philip</span></li>
+            <li><span class="role">Kontrabas</span><span class="desc">Andreas</span></li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         PRESSBILDER
+         ============================================================ -->
+    <section id="photos">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Bilder</p>
+            <h2>Pressbilder</h2>
+            <p class="lead">Fria att använda redaktionellt och i marknadsföring av bokade spelningar. Ange gärna fotokredit. (Finns i högre upplösning på begäran.)</p>
+          </div>
+        </div>
+
+        <div class="press-photos">
+          <img class="press-photo" src="../images/hero-band.jpg" alt="The Django Quartet spelar tillsammans på scen.">
+          <img class="press-photo" src="../images/guitar-hands.jpg" alt="Närbild på sologitarristens hand mot greppbrädan under en spelning.">
+          <img class="press-photo" src="../images/media-violin.jpg" alt="Fiolisten spelar under en liveframträdande.">
+          <img class="press-photo" src="../images/@mariscal.fotografia-ANA-PREWEDDING-ELSA&RAFA-122.jpg" alt="Gitarristen mitt i ett solo under en spelning.">
+        </div>
+        <p class="photo-credit">Foto: Mariscal Fotografia</p>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TEKNISK RIDER
+         ============================================================ -->
+    <section id="rider">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">För Ljudtekniker &amp; Arrangörer</p>
+            <h2>Teknisk Rider</h2>
+          </div>
+        </div>
+
+        <div class="rider-card">
+          <header>
+            <h3>Teknisk Rider</h3>
+            <span>The Django Quartet — akustisk uppsättning, 4 musiker</span>
+          </header>
+          <dl class="rider-grid">
+            <div>
+              <dt>Besättning</dt>
+              <dd>2 gitarrer, fiol, kontrabas.</dd>
+            </div>
+            <div class="full">
+              <dt>Ljudalternativ</dt>
+              <dd>
+                Vi erbjuder tre nivåer av ljudsättning, beroende på lokal och önskat resultat:
+                <br><br>
+                <strong>Helt akustiskt — 0 kanaler.</strong> Inga mikrofoner alls. Rekommenderas för mindre, intima lokaler och bakgrundsmusik där rummets egen akustik räcker, eller utomhus där man saknar ström/el.
+                <br><br>
+                <strong>Kardioidmikrofon för hela bandet — 1 kanal.</strong> En mikrofon fångar ensemblen samlat. Rekommenderas för medelstora rum som behöver viss förstärkning men inte en full mix.
+                <br><br>
+                <strong>Individuella instrumentmikrofoner — 4 kanaler.</strong> En mikrofon per musiker (gitarrer, fiol, kontrabas). Rekommenderas för större lokaler, konsertrum eller när ljudteknikern vill kunna balansera varje instrument separat.
+                <br><br>
+                Val av nivå och exakt mikrofonuppsättning bekräftas med ljudtekniker inför spelningen.
+              </dd>
+            </div>
+            <div>
+              <dt>Monitorer</dt>
+              <dd>1–2 st räcker normalt. Vid mindre, akustiska lokaler klarar sig bandet ofta helt utan — stäms av inför spelningen.</dd>
+            </div>
+            <div>
+              <dt>Scenyta</dt>
+              <dd>Minst ca 3 × 2,5 meter fri golvyta för 4 sittande musiker med instrument.</dd>
+            </div>
+            <div>
+              <dt>Stolar</dt>
+              <dd>4 st stolar utan armstöd.</dd>
+            </div>
+            <div>
+              <dt>Notställ</dt>
+              <dd>2–4 st, gärna med belysning om spelningen sker i svagt ljus.</dd>
+            </div>
+            <div>
+              <dt>Ström</dt>
+              <dd>2 st jordade eluttag nära scenen. Bandet använder inga egna förstärkare.</dd>
+            </div>
+            <div>
+              <dt>Ankomst &amp; soundcheck</dt>
+              <dd>Tillträde till scenen minst 45–60 minuter före speltid för uppställning och ljudavstämning.</dd>
+            </div>
+            <div>
+              <dt>Kontaktperson på plats</dt>
+              <dd>Ange gärna namn och telefonnummer till ansvarig kontaktperson/ljudtekniker i bokningsbekräftelsen.</dd>
+            </div>
+            <div class="full">
+              <dt>Frågor om riden</dt>
+              <dd><a class="email" style="font-size:inherit; color:var(--gold);" href="mailto:bergstrom.philip@gmail.com">bergstrom.philip@gmail.com</a></dd>
+            </div>
+          </dl>
+          <p class="rider-note">Ovanstående är standardförutsättningar för en akustisk spelning och anpassas gärna efter er lokal. Hör av er i god tid om ni har frågor eller särskilda begränsningar kring scen, ljud eller el.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         KONTAKT
+         ============================================================ -->
+    <section id="contact" class="contact">
+      <div class="wrap">
+        <div class="chevron-band" style="--chev-fg: var(--gold-bright); --chev-bg: transparent;" aria-hidden="true"></div>
+        <div class="section-head centered">
+          <p class="eyebrow centered">Kontaktperson</p>
+          <h2>Kontakt</h2>
+          <p class="lead">För bokningsförfrågningar eller andra frågor.</p>
+        </div>
+
+        <div class="contact-panel deco-frame on-stage">
+          <span class="corner tl" aria-hidden="true"></span>
+          <span class="corner tr" aria-hidden="true"></span>
+          <span class="corner bl" aria-hidden="true"></span>
+          <span class="corner br" aria-hidden="true"></span>
+          <p class="contact-name">Philip Bergström</p>
+          <a class="email" href="mailto:bergstrom.philip@gmail.com">bergstrom.philip@gmail.com</a>
+          <a class="phone" href="tel:+46733223919">+46 73 322 39 19</a>
+          <p class="note">Berätta datum, lokal och speltid — så återkommer vi så snart som möjligt!</p>
+
+          <div class="socials">
+            <a href="https://www.instagram.com/the.django.quartet/" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="3" y="3" width="18" height="18" rx="5"/>
+                <circle cx="12" cy="12" r="4.2"/>
+                <circle cx="17.4" cy="6.6" r="0.9" fill="currentColor" stroke="none"/>
+              </svg>
+              Instagram
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span class="fname">The Django Quartet</span> · Pressmaterial · © 2026
+      <br><span style="font-size:0.72rem; opacity:0.85;">Foto: Mariscal Fotografia</span>
+    </div>
+  </footer>
+
+</body>
+</html>
