@@ -10,8 +10,9 @@ Photos of The Django Quartet, used across the site. All get a shared sepia/duoto
 | `media-bass.jpg`      | Media showcase, frame 1 ("Live på Vinkällaren Marcel") |
 | `media-violin.jpg`    | Media showcase, frame 2 ("Minor Swing…")               |
 | `media-room.jpg`      | Media showcase, frame 3 ("Demobrickan…")               |
+| `media-guitar.jpg`    | Media showcase, frame 4 (guitarist & bassist)          |
 | `contact-band.jpg`    | Contact section background                             |
 
-`@mariscal.fotografia-...-120.jpg` and `...-122.jpg` are also in this folder (unused spares from the same shoot) in case they're wanted for a future spot.
+`@mariscal.fotografia-...-122.jpg` is also in this folder (an unused spare from the same shoot) in case it's wanted for a future spot.
 
 Photo credit (Mariscal Fotografia) is set in the footer.

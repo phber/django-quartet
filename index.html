@@ -459,10 +459,9 @@
      MEDIA
      ============================================================ */
   .media-grid{
-    display: grid;
-    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    display: flex;
+    flex-direction: column;
     gap: clamp(18px, 2.6vw, 28px);
-    align-items: start;
   }
   .media-video{ position: relative; }
   .media-video .arch{
@@ -474,8 +473,16 @@
     box-shadow: var(--shadow);
   }
   .media-video .arch iframe{ position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .video-controls{
+    position: absolute; inset: 0; z-index: 2;
+    opacity: 1;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+  }
+  .media-video.controls-hidden .video-controls{ opacity: 0; }
+  .media-video.controls-hidden .arch{ cursor: none; }
   .video-toggle{
-    position: absolute; top: 50%; left: 50%; z-index: 2;
+    position: absolute; top: 50%; left: 50%;
     transform: translate(-50%, -50%);
     width: 80px; height: 80px;
     display: flex; align-items: center; justify-content: center;
@@ -483,6 +490,7 @@
     background: rgba(10,5,3,0.55);
     border: 1px solid var(--gold-bright);
     cursor: pointer;
+    pointer-events: auto;
     transition: background 0.2s ease;
   }
   .video-toggle:hover{ background: rgba(10,5,3,0.78); }
@@ -491,9 +499,42 @@
   .video-toggle .icon-pause{ display: none; }
   .video-toggle[data-state="playing"] .icon-play{ display: none; }
   .video-toggle[data-state="playing"] .icon-pause{ display: block; }
-  .media-photos{ display: flex; flex-direction: column; gap: clamp(18px, 2.6vw, 28px); }
+  .video-seek-bar{
+    position: absolute; left: 0; right: 0; bottom: 0;
+    padding: 16px clamp(12px, 3vw, 22px) 12px;
+    background: linear-gradient(to top, rgba(10,5,3,0.72), rgba(10,5,3,0));
+    pointer-events: auto;
+  }
+  .video-seek{
+    -webkit-appearance: none; appearance: none;
+    display: block;
+    width: 100%;
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(255,255,255,0.28);
+    outline: none;
+    cursor: pointer;
+    margin: 0;
+  }
+  .video-seek::-webkit-slider-runnable-track{ height: 4px; border-radius: 2px; background: transparent; }
+  .video-seek::-moz-range-track{ height: 4px; border-radius: 2px; background: transparent; }
+  .video-seek::-webkit-slider-thumb{
+    -webkit-appearance: none; appearance: none;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--gold-bright);
+    border: 1px solid rgba(10,5,3,0.6);
+    margin-top: -5px;
+  }
+  .video-seek::-moz-range-thumb{
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--gold-bright);
+    border: 1px solid rgba(10,5,3,0.6);
+  }
+  .media-photos{ display: flex; flex-direction: row; flex-wrap: wrap; gap: clamp(18px, 2.6vw, 28px); }
   .media-photos .media-photo{
-    display: block; width: 100%;
+    display: block; flex: 1 1 160px; min-width: 0;
     aspect-ratio: 4 / 3;
     object-fit: cover;
     box-shadow: var(--shadow);
@@ -669,9 +710,6 @@
     .about-copy .drop{ font-size: 3rem; }
     .section-head{ flex-direction: column; align-items: flex-start; gap: 10px; }
     .section-head .head-rule{ width: 100%; margin-bottom: 0; }
-    .media-grid{ grid-template-columns: 1fr; }
-    .media-photos{ flex-direction: row; }
-    .media-photos .media-photo{ flex: 1; min-width: 0; }
   }
 </style>
 </head>
@@ -812,16 +850,22 @@
           <div class="media-video">
             <div class="arch">
               <iframe id="quartet-video" src="https://player.vimeo.com/video/1226321800?title=0&amp;byline=0&amp;portrait=0&amp;controls=0&amp;dnt=1" loading="lazy" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="Live på Vinkällaren Marcel — Hela Spelningen"></iframe>
-              <button type="button" class="video-toggle" data-state="paused" aria-label="Spela videon">
-                <svg class="icon-play" viewBox="0 0 60 60" aria-hidden="true"><path d="M24 19 L42 30 L24 41 Z"/></svg>
-                <svg class="icon-pause" viewBox="0 0 60 60" aria-hidden="true"><path d="M22 19h6v22h-6zM32 19h6v22h-6z"/></svg>
-              </button>
+              <div class="video-controls">
+                <button type="button" class="video-toggle" data-state="paused" aria-label="Spela videon">
+                  <svg class="icon-play" viewBox="0 0 60 60" aria-hidden="true"><path d="M24 19 L42 30 L24 41 Z"/></svg>
+                  <svg class="icon-pause" viewBox="0 0 60 60" aria-hidden="true"><path d="M22 19h6v22h-6zM32 19h6v22h-6z"/></svg>
+                </button>
+                <div class="video-seek-bar">
+                  <input type="range" class="video-seek" min="0" max="1000" value="0" step="0.1" aria-label="Sök i videon">
+                </div>
+              </div>
             </div>
           </div>
 
           <div class="media-photos">
             <img class="media-photo" src="./images/media-violin.jpg" alt="" loading="lazy">
             <img class="media-photo" src="./images/media-room.jpg" alt="" loading="lazy">
+            <img class="media-photo" src="./images/media-guitar.jpg" alt="" loading="lazy">
           </div>
         </div>
       </div>
@@ -956,16 +1000,85 @@
     (function(){
       var iframe = document.getElementById('quartet-video');
       var toggle = document.querySelector('.video-toggle');
-      if(!iframe || !toggle || typeof Vimeo === 'undefined') return;
+      var mediaVideo = document.querySelector('.media-video');
+      var seek = document.querySelector('.video-seek');
+      if(!iframe || !toggle || !mediaVideo || !seek || typeof Vimeo === 'undefined') return;
       var player = new Vimeo.Player(iframe);
+      var isPlaying = false;
+      var isSeeking = false;
+      var hideTimer = null;
+      var seekRange = 1000; // fixed slider resolution; mapped to duration in seconds
+
+      function paintSeek(pct){
+        pct = Math.max(0, Math.min(100, pct));
+        seek.style.background = 'linear-gradient(to right, var(--gold-bright) ' + pct + '%, rgba(255,255,255,0.28) ' + pct + '%)';
+      }
+
+      function showControls(){
+        mediaVideo.classList.remove('controls-hidden');
+        clearTimeout(hideTimer);
+        if(isPlaying && !isSeeking){
+          hideTimer = setTimeout(function(){
+            mediaVideo.classList.add('controls-hidden');
+          }, 2500);
+        }
+      }
+
+      ['mousemove', 'touchstart', 'focusin'].forEach(function(evt){
+        mediaVideo.addEventListener(evt, showControls);
+      });
+
       toggle.addEventListener('click', function(){
         player.getPaused().then(function(paused){
           paused ? player.play() : player.pause();
         });
       });
-      player.on('play', function(){ toggle.setAttribute('data-state', 'playing'); toggle.setAttribute('aria-label', 'Pausa videon'); });
-      player.on('pause', function(){ toggle.setAttribute('data-state', 'paused'); toggle.setAttribute('aria-label', 'Spela videon'); });
-      player.on('ended', function(){ toggle.setAttribute('data-state', 'paused'); toggle.setAttribute('aria-label', 'Spela videon'); });
+
+      player.getDuration().then(function(duration){
+        seek.dataset.duration = duration;
+      });
+
+      player.on('timeupdate', function(data){
+        if(isSeeking) return;
+        var duration = data.duration || parseFloat(seek.dataset.duration) || 0;
+        if(!duration) return;
+        var pct = (data.seconds / duration) * 100;
+        seek.value = (data.seconds / duration) * seekRange;
+        paintSeek(pct);
+      });
+
+      seek.addEventListener('input', function(){
+        isSeeking = true;
+        showControls();
+        paintSeek((seek.value / seekRange) * 100);
+      });
+      seek.addEventListener('change', function(){
+        var duration = parseFloat(seek.dataset.duration) || 0;
+        if(duration){
+          player.setCurrentTime((seek.value / seekRange) * duration);
+        }
+        isSeeking = false;
+        showControls();
+      });
+
+      player.on('play', function(){
+        isPlaying = true;
+        toggle.setAttribute('data-state', 'playing');
+        toggle.setAttribute('aria-label', 'Pausa videon');
+        showControls();
+      });
+      player.on('pause', function(){
+        isPlaying = false;
+        toggle.setAttribute('data-state', 'paused');
+        toggle.setAttribute('aria-label', 'Spela videon');
+        showControls();
+      });
+      player.on('ended', function(){
+        isPlaying = false;
+        toggle.setAttribute('data-state', 'paused');
+        toggle.setAttribute('aria-label', 'Spela videon');
+        showControls();
+      });
     })();
   </script>
 </body>
