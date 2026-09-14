@@ -199,6 +199,79 @@
   }
 
   /* ============================================================
+     VIDEO
+     ============================================================ */
+  .media-video{ position: relative; }
+  .media-video .arch{
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: var(--stage-deep);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .media-video .arch iframe{ position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .video-controls{
+    position: absolute; inset: 0; z-index: 2;
+    opacity: 1;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+  }
+  .media-video.controls-hidden .video-controls{ opacity: 0; }
+  .media-video.controls-hidden .arch{ cursor: none; }
+  .video-toggle{
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px; height: 80px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    background: rgba(10,5,3,0.55);
+    border: 1px solid var(--gold-bright);
+    cursor: pointer;
+    pointer-events: auto;
+    transition: background 0.2s ease;
+  }
+  .video-toggle:hover{ background: rgba(10,5,3,0.78); }
+  .video-toggle svg{ width: 36px; height: 36px; }
+  .video-toggle path{ fill: var(--gold-bright); }
+  .video-toggle .icon-pause{ display: none; }
+  .video-toggle[data-state="playing"] .icon-play{ display: none; }
+  .video-toggle[data-state="playing"] .icon-pause{ display: block; }
+  .video-seek-bar{
+    position: absolute; left: 0; right: 0; bottom: 0;
+    padding: 16px clamp(12px, 3vw, 22px) 12px;
+    background: linear-gradient(to top, rgba(10,5,3,0.72), rgba(10,5,3,0));
+    pointer-events: auto;
+  }
+  .video-seek{
+    -webkit-appearance: none; appearance: none;
+    display: block;
+    width: 100%;
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(255,255,255,0.28);
+    outline: none;
+    cursor: pointer;
+    margin: 0;
+  }
+  .video-seek::-webkit-slider-runnable-track{ height: 4px; border-radius: 2px; background: transparent; }
+  .video-seek::-moz-range-track{ height: 4px; border-radius: 2px; background: transparent; }
+  .video-seek::-webkit-slider-thumb{
+    -webkit-appearance: none; appearance: none;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--gold-bright);
+    border: 1px solid rgba(10,5,3,0.6);
+    margin-top: -5px;
+  }
+  .video-seek::-moz-range-thumb{
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--gold-bright);
+    border: 1px solid rgba(10,5,3,0.6);
+  }
+
+  /* ============================================================
      BIO
      ============================================================ */
   .press-copy{ max-width: 70ch; margin-inline: auto; }
@@ -390,6 +463,20 @@
      ============================================================ */
   footer{ background: var(--stage-deep); color: #6E7C6A; text-align: center; padding-block: 2.6rem; font-size: 0.8rem; letter-spacing: 0.03em; }
   footer .fname{ color: #B79A8C; font-family: 'Cinzel', serif; letter-spacing: 0.1em; }
+  footer .site-link{
+    display: inline-block;
+    margin-top: 1.1rem;
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #B79A8C;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(183,154,140,0.4);
+    padding-bottom: 0.2em;
+    transition: color 160ms ease, border-color 160ms ease;
+  }
+  footer .site-link:hover{ color: var(--gold-bright); border-color: var(--gold-bright); }
 
   /* ============================================================
      RESPONSIVT
@@ -409,6 +496,35 @@
   <div class="chevron-band" style="--chev-fg: var(--gold); --chev-bg: transparent;" aria-hidden="true"></div>
 
   <main>
+
+    <!-- ============================================================
+         VIDEO
+         ============================================================ -->
+    <section id="video">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Se Bandet Live</p>
+            <h2>Video</h2>
+          </div>
+        </div>
+
+        <div class="media-video">
+          <div class="arch">
+            <iframe id="quartet-video" src="https://player.vimeo.com/video/1226321800?title=0&amp;byline=0&amp;portrait=0&amp;controls=0&amp;dnt=1" loading="lazy" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="Live på Vinkällaren Marcel — Hela Spelningen"></iframe>
+            <div class="video-controls">
+              <button type="button" class="video-toggle" data-state="paused" aria-label="Spela videon">
+                <svg class="icon-play" viewBox="0 0 60 60" aria-hidden="true"><path d="M24 19 L42 30 L24 41 Z"/></svg>
+                <svg class="icon-pause" viewBox="0 0 60 60" aria-hidden="true"><path d="M22 19h6v22h-6zM32 19h6v22h-6z"/></svg>
+              </button>
+              <div class="video-seek-bar">
+                <input type="range" class="video-seek" min="0" max="1000" value="0" step="0.1" aria-label="Sök i videon">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- ============================================================
          OM BANDET
@@ -458,8 +574,8 @@
       <div class="wrap">
         <div class="section-head">
           <div>
-            <p class="eyebrow">Bilder</p>
-            <h2>Pressbilder</h2>
+            <p class="eyebrow">Media</p>
+            <h2>Video- &amp; Bildmaterial</h2>
             <p class="lead">Fria att använda redaktionellt och i marknadsföring av bokade spelningar. Ange gärna fotokredit. (Finns i högre upplösning på begäran.)</p>
           </div>
         </div>
@@ -503,32 +619,20 @@
                 <br><br>
                 <strong>Helt akustiskt — 0 kanaler.</strong> Inga mikrofoner alls. Rekommenderas för mindre, intima lokaler och bakgrundsmusik där rummets egen akustik räcker, eller utomhus där man saknar ström/el.
                 <br><br>
-                <strong>Kardioidmikrofon för hela bandet — 1 kanal.</strong> En mikrofon fångar ensemblen samlat. Rekommenderas för medelstora rum som behöver viss förstärkning men inte en full mix.
+                <strong>Kardioidmikrofon för hela bandet — 1 kanal.</strong> En mikrofon fångar ensemblen samlat. Rekommenderas för medelstora rum som behöver viss förstärkning men inte en full mix. Detta alternativ behöver inga monitorer men högtalare.
                 <br><br>
-                <strong>Individuella instrumentmikrofoner — 4 kanaler.</strong> En mikrofon per musiker (gitarrer, fiol, kontrabas). Rekommenderas för större lokaler, konsertrum eller när ljudteknikern vill kunna balansera varje instrument separat.
+                <strong>Individuella instrumentmikrofoner — 4 kanaler.</strong> En mikrofon per musiker (gitarrer, fiol, kontrabas). Rekommenderas för större lokaler, konsertrum eller när ljudteknikern vill kunna balansera varje instrument separat. Högtalare på plats och gärna monitorer.
                 <br><br>
                 Val av nivå och exakt mikrofonuppsättning bekräftas med ljudtekniker inför spelningen.
               </dd>
             </div>
             <div>
-              <dt>Monitorer</dt>
-              <dd>1–2 st räcker normalt. Vid mindre, akustiska lokaler klarar sig bandet ofta helt utan — stäms av inför spelningen.</dd>
-            </div>
-            <div>
               <dt>Scenyta</dt>
-              <dd>Minst ca 3 × 2,5 meter fri golvyta för 4 sittande musiker med instrument.</dd>
-            </div>
-            <div>
-              <dt>Stolar</dt>
-              <dd>4 st stolar utan armstöd.</dd>
+              <dd>Plats för 2 stolar för gitarristerna, kontrabas och fiol står.</dd>
             </div>
             <div>
               <dt>Notställ</dt>
               <dd>2–4 st, gärna med belysning om spelningen sker i svagt ljus.</dd>
-            </div>
-            <div>
-              <dt>Ström</dt>
-              <dd>2 st jordade eluttag nära scenen. Bandet använder inga egna förstärkare.</dd>
             </div>
             <div>
               <dt>Ankomst &amp; soundcheck</dt>
@@ -556,8 +660,8 @@
         <div class="chevron-band" style="--chev-fg: var(--gold-bright); --chev-bg: transparent;" aria-hidden="true"></div>
         <div class="section-head centered">
           <p class="eyebrow centered">Kontaktperson</p>
-          <h2>Kontakt</h2>
-          <p class="lead">För bokningsförfrågningar eller andra frågor.</p>
+          <h2>Hör av er</h2>
+          <p class="lead">Kontaktperson för bokningsförfrågningar eller andra frågor.</p>
         </div>
 
         <div class="contact-panel deco-frame on-stage">
@@ -590,8 +694,95 @@
     <div class="wrap">
       <span class="fname">The Django Quartet</span> · Pressmaterial · © 2026
       <br><span style="font-size:0.72rem; opacity:0.85;">Foto: Mariscal Fotografia</span>
+      <br><a class="site-link" href="../">Till hemsidan →</a>
     </div>
   </footer>
 
+  <script src="https://player.vimeo.com/api/player.js"></script>
+  <script>
+    (function(){
+      var iframe = document.getElementById('quartet-video');
+      var toggle = document.querySelector('.video-toggle');
+      var mediaVideo = document.querySelector('.media-video');
+      var seek = document.querySelector('.video-seek');
+      if(!iframe || !toggle || !mediaVideo || !seek || typeof Vimeo === 'undefined') return;
+      var player = new Vimeo.Player(iframe);
+      var isPlaying = false;
+      var isSeeking = false;
+      var hideTimer = null;
+      var seekRange = 1000; // fixed slider resolution; mapped to duration in seconds
+
+      function paintSeek(pct){
+        pct = Math.max(0, Math.min(100, pct));
+        seek.style.background = 'linear-gradient(to right, var(--gold-bright) ' + pct + '%, rgba(255,255,255,0.28) ' + pct + '%)';
+      }
+
+      function showControls(){
+        mediaVideo.classList.remove('controls-hidden');
+        clearTimeout(hideTimer);
+        if(isPlaying && !isSeeking){
+          hideTimer = setTimeout(function(){
+            mediaVideo.classList.add('controls-hidden');
+          }, 2500);
+        }
+      }
+
+      ['mousemove', 'touchstart', 'focusin'].forEach(function(evt){
+        mediaVideo.addEventListener(evt, showControls);
+      });
+
+      toggle.addEventListener('click', function(){
+        player.getPaused().then(function(paused){
+          paused ? player.play() : player.pause();
+        });
+      });
+
+      player.getDuration().then(function(duration){
+        seek.dataset.duration = duration;
+      });
+
+      player.on('timeupdate', function(data){
+        if(isSeeking) return;
+        var duration = data.duration || parseFloat(seek.dataset.duration) || 0;
+        if(!duration) return;
+        var pct = (data.seconds / duration) * 100;
+        seek.value = (data.seconds / duration) * seekRange;
+        paintSeek(pct);
+      });
+
+      seek.addEventListener('input', function(){
+        isSeeking = true;
+        showControls();
+        paintSeek((seek.value / seekRange) * 100);
+      });
+      seek.addEventListener('change', function(){
+        var duration = parseFloat(seek.dataset.duration) || 0;
+        if(duration){
+          player.setCurrentTime((seek.value / seekRange) * duration);
+        }
+        isSeeking = false;
+        showControls();
+      });
+
+      player.on('play', function(){
+        isPlaying = true;
+        toggle.setAttribute('data-state', 'playing');
+        toggle.setAttribute('aria-label', 'Pausa videon');
+        showControls();
+      });
+      player.on('pause', function(){
+        isPlaying = false;
+        toggle.setAttribute('data-state', 'paused');
+        toggle.setAttribute('aria-label', 'Spela videon');
+        showControls();
+      });
+      player.on('ended', function(){
+        isPlaying = false;
+        toggle.setAttribute('data-state', 'paused');
+        toggle.setAttribute('aria-label', 'Spela videon');
+        showControls();
+      });
+    })();
+  </script>
 </body>
 </html>
