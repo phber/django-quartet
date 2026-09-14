@@ -201,7 +201,7 @@
   /* ============================================================
      VIDEO
      ============================================================ */
-  .media-video{ position: relative; }
+  .media-video{ position: relative; margin-bottom: clamp(28px, 4vw, 40px); }
   .media-video .arch{
     position: relative;
     width: 100%;
@@ -445,15 +445,6 @@
   .rider-grid dd{ margin: 0; font-size: 0.94rem; color: var(--ink-soft); }
   .rider-grid dd strong{ color: var(--ink); font-weight: 600; }
   .rider-grid .full{ grid-column: 1 / -1; }
-  .rider-note{
-    margin: 1.6rem clamp(20px, 4vw, 34px) 0;
-    padding-top: 1.4rem;
-    border-top: 1px dotted var(--paper-line);
-    text-align: center;
-    font-style: italic;
-    color: var(--ink-faint);
-    font-size: 0.92rem;
-  }
   @media (max-width: 640px){
     .rider-grid{ grid-template-columns: 1fr; }
   }
@@ -496,35 +487,6 @@
   <div class="chevron-band" style="--chev-fg: var(--gold); --chev-bg: transparent;" aria-hidden="true"></div>
 
   <main>
-
-    <!-- ============================================================
-         VIDEO
-         ============================================================ -->
-    <section id="video">
-      <div class="wrap">
-        <div class="section-head">
-          <div>
-            <p class="eyebrow">Se Bandet Live</p>
-            <h2>Video</h2>
-          </div>
-        </div>
-
-        <div class="media-video">
-          <div class="arch">
-            <iframe id="quartet-video" src="https://player.vimeo.com/video/1226321800?title=0&amp;byline=0&amp;portrait=0&amp;controls=0&amp;dnt=1" loading="lazy" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="Live på Vinkällaren Marcel — Hela Spelningen"></iframe>
-            <div class="video-controls">
-              <button type="button" class="video-toggle" data-state="paused" aria-label="Spela videon">
-                <svg class="icon-play" viewBox="0 0 60 60" aria-hidden="true"><path d="M24 19 L42 30 L24 41 Z"/></svg>
-                <svg class="icon-pause" viewBox="0 0 60 60" aria-hidden="true"><path d="M22 19h6v22h-6zM32 19h6v22h-6z"/></svg>
-              </button>
-              <div class="video-seek-bar">
-                <input type="range" class="video-seek" min="0" max="1000" value="0" step="0.1" aria-label="Sök i videon">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
 
     <!-- ============================================================
          OM BANDET
@@ -580,6 +542,21 @@
           </div>
         </div>
 
+        <div class="media-video">
+          <div class="arch">
+            <iframe id="quartet-video" src="https://player.vimeo.com/video/1226321800?title=0&amp;byline=0&amp;portrait=0&amp;controls=0&amp;dnt=1" loading="lazy" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="Live på Vinkällaren Marcel — Hela Spelningen"></iframe>
+            <div class="video-controls">
+              <button type="button" class="video-toggle" data-state="paused" aria-label="Spela videon">
+                <svg class="icon-play" viewBox="0 0 60 60" aria-hidden="true"><path d="M24 19 L42 30 L24 41 Z"/></svg>
+                <svg class="icon-pause" viewBox="0 0 60 60" aria-hidden="true"><path d="M22 19h6v22h-6zM32 19h6v22h-6z"/></svg>
+              </button>
+              <div class="video-seek-bar">
+                <input type="range" class="video-seek" min="0" max="1000" value="0" step="0.1" aria-label="Sök i videon">
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="press-photos">
           <img class="press-photo" src="../images/hero-band.jpg" alt="The Django Quartet spelar tillsammans på scen.">
           <img class="press-photo" src="../images/guitar-hands.jpg" alt="Närbild på sologitarristens hand mot greppbrädan under en spelning.">
@@ -632,7 +609,7 @@
             </div>
             <div>
               <dt>Notställ</dt>
-              <dd>2–4 st, gärna med belysning om spelningen sker i svagt ljus.</dd>
+              <dd>3–4 st om möjligt, annars tar vi med egna.</dd>
             </div>
             <div>
               <dt>Ankomst &amp; soundcheck</dt>
@@ -647,7 +624,6 @@
               <dd><a class="email" style="font-size:inherit; color:var(--gold);" href="mailto:bergstrom.philip@gmail.com">bergstrom.philip@gmail.com</a></dd>
             </div>
           </dl>
-          <p class="rider-note">Ovanstående är standardförutsättningar för en akustisk spelning och anpassas gärna efter er lokal. Hör av er i god tid om ni har frågor eller särskilda begränsningar kring scen, ljud eller el.</p>
         </div>
       </div>
     </section>
@@ -659,8 +635,8 @@
       <div class="wrap">
         <div class="chevron-band" style="--chev-fg: var(--gold-bright); --chev-bg: transparent;" aria-hidden="true"></div>
         <div class="section-head centered">
-          <p class="eyebrow centered">Kontaktperson</p>
-          <h2>Hör av er</h2>
+          <p class="eyebrow centered">Hör av er</p>
+          <h2>Kontakt &amp; Bokning</h2>
           <p class="lead">Kontaktperson för bokningsförfrågningar eller andra frågor.</p>
         </div>
 
